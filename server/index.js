@@ -1,11 +1,10 @@
 
-const express = require( 'express')
-const mongoose = require('mongoose')
+const express = require( 'express');
+const mongoose = require('mongoose');
 
 const connectDB = async () =>{
     try {
-        await mongoose.connect('mongodb+srv://vanquang:1234567890@webblog.ybxxmbt.mongodb.net/?retryWrites=true&w=majority', {
-            
+        await mongoose.connect('mongodb+srv://vanquang:1234567890@webblog.ybxxmbt.mongodb.net/webblog?retryWrites=true&w=majority', {
             useNewUrlParser: true,
             useUnifiedTopology: true
         })
