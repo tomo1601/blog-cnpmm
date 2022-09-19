@@ -5,3 +5,8 @@ Content-Type: application/json
     "username":"tuananh",
     "password":"1234567"
 }
+
+###
+GET http://localhost:5000/api/auth/getuser
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM1OTY2MjF9.De99CbPH8EP5jQ0-o4VHntvRyi_spEpy_9ir6D53nqc
