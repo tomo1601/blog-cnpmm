@@ -94,9 +94,7 @@ router.post('/login', async(req,res) => {
         }
 
         const token = jwt.sign({userId:user._id}, process.env.JWT_SECRET_KEY)
-
         const {password,__v, ...info}=user._doc
-
         return res.json({success: true, info, token})
         
     } catch (error) {
