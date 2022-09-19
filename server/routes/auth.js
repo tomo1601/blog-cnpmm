@@ -4,6 +4,7 @@ const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 const {body, validationResult } = require('express-validator')
 const User = require('../models/user')
+const {verifyAccessToken, verifyAdminRole} = require('../middlewares/jwt_service')
 
 //Post: /register
 router.post('/register',body('email').isEmail().normalizeEmail(),async(req,res) => {
@@ -60,7 +61,8 @@ router.post('/register',body('email').isEmail().normalizeEmail(),async(req,res) 
         })
         await newUser.save()
 
-        const token = jwt.sign({userId:newUser._id}, process.env.JWT_SECRET_KEY)
+        const token = jwt.sign({userId:newUser._id}, process.env.JWT_SECRET_KEY,
+            { expiresIn: process.env.JWT_EXPIRE})
 
         return res.json({success: true, message:'User created', token})
     } catch (error) {
@@ -101,6 +103,23 @@ router.post('/login', async(req,res) => {
         console.log(error)
         res.status(500).json(error)
     }
+})
+
+//test phân quyền
+router.get('/getuser',verifyAccessToken, verifyAdminRole, async(req,res) => {
+    try {
+        const listUser = await User.find()
+        if(!listUser){
+            return res
+            .status(400)
+            .json({message:'No user found!'})
+        }
+        return res.json({listUser: listUser})
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+    
 })
 
 module.exports = router
