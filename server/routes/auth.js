@@ -105,11 +105,11 @@ router.post('/login', async (req, res) => {
 })
 // @desc    Log user out
 
-router.get("/logout", verifyAccessToken, async (req, res)=> {
+router.get("/logout", verifyAccessToken, async (req, res) => {
     res.send("Logout successful!")
 });
 
-router.delete("/delete-user/:id", verifyAccessToken, async (req, res)=> {
+router.delete("/delete-user/:id", verifyAccessToken, async (req, res) => {
     // await Post.find({user:req.params.id})
     // .then(function(posts){
     //     if(posts){
@@ -118,14 +118,38 @@ router.delete("/delete-user/:id", verifyAccessToken, async (req, res)=> {
     //     }
     // })
     try {
-        await User.findByIdAndDelete({_id:req.params.id})
+        await User.findByIdAndDelete({ _id: req.params.id })
         res.send("Delete successful!")
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
     }
 });
+//get put delete post
+// @desc    change user's password
+router.put("/update-password/:id", verifyAccessToken, async (req, res) => {
 
+    try {
+        const user = await User.findById({ _id: req.params.id })
+        if (!(await argon2.verify(user.password, req.body.currentPassword))) {
+
+            return res.status(400).json({
+                success: false,
+                error: [
+                    { field: 'currentPassword', message: 'Current password is incorrect' }
+                ]
+            })
+        }
+        const hashedPassword = await argon2.hash(req.body.newPassword)
+        user.password = hashedPassword
+        await user.save()
+        const { password, __v, ...info } = user._doc
+        return res.json({ success: true, info })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+});
 
 //test phân quyền
 router.get('/getuser', verifyAccessToken, verifyAdminRole, async (req, res) => {
