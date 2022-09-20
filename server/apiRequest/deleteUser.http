@@ -1,0 +1,3 @@
+DELETE http://localhost:5000/api/auth/delete-user/6329a6c4af13ea322b378121
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM2NzA2NDMsImV4cCI6MTY2MzkyOTg0M30.rvoKrlXr3mkdsLKfGqWDl0gUmN_XnhLv1bWa-h8dNO4
