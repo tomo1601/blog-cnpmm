@@ -11,14 +11,15 @@ const CommentSchema = new Schema(
     },
     postId: {
       type: mongoose.Schema.ObjectId,
-      ref: 'Post',
+      ref: 'posts',
       required: true
     },
     userId: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User',
+      ref: 'users',
       required: true
     }
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true }
 )
+module.exports = mongoose.model('comment',CommentSchema)

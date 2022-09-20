@@ -4,6 +4,7 @@ const argon2 = require('argon2')
 const jwt = require('jsonwebtoken')
 const { body, validationResult } = require('express-validator')
 const User = require('../models/user')
+const Post = require('../models/post')
 const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_service')
 
 //Post: /register
@@ -61,10 +62,7 @@ router.post('/register', body('email').isEmail().normalizeEmail(), async (req, r
         })
         await newUser.save()
 
-        const token = jwt.sign({ userId: newUser._id }, process.env.JWT_SECRET_KEY,
-            { expiresIn: process.env.JWT_EXPIRE })
-
-        return res.json({ success: true, message: 'User created', token })
+        return res.json({ success: true, message: 'User created' })
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
@@ -95,7 +93,8 @@ router.post('/login', async (req, res) => {
                 .json({ success: false, message: 'Incorrect password!' })
         }
 
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY)
+        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY,
+            { expiresIn: process.env.JWT_EXPIRE })
         const { password, __v, ...info } = user._doc
         return res.json({ success: true, info, token })
 
@@ -104,22 +103,29 @@ router.post('/login', async (req, res) => {
         res.status(500).json(error)
     }
 })
-// @desc    Log user out / clear cookie
-// @route   GET /api/v1/auth/logout
-// @access  Private
-exports.logout = asyncHandler(async (req, res, next) => {
-    try {
-    res.cookie('token', 'none', {
-        expires: new Date(Date.now() + 10 * 1000),
-        httpOnly: true
-    })
+// @desc    Log user out
 
-    res.status(200).json({ success: true, data: {}, message: 'Logout successful!'})
-    } catch(error){
+router.get("/logout", verifyAccessToken, async (req, res)=> {
+    res.send("Logout successful!")
+});
+
+router.delete("/delete-user/:id", verifyAccessToken, async (req, res)=> {
+    // await Post.find({user:req.params.id})
+    // .then(function(posts){
+    //     if(posts){
+    //         return res.status(400)
+    //         .json({message: 'Can not delete this user!' })
+    //     }
+    // })
+    try {
+        await User.findByIdAndDelete({_id:req.params.id})
+        res.send("Delete successful!")
+    } catch (error) {
         console.log(error)
-        res.status(500).json(error) 
+        res.status(500).json(error)
     }
-})
+});
+
 
 //test phân quyền
 router.get('/getuser', verifyAccessToken, verifyAdminRole, async (req, res) => {

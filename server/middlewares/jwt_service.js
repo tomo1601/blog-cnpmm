@@ -3,17 +3,27 @@ const User = require('../models/user')
 
 const verifyAccessToken = async(req,res,next) =>{
     try {
-        if(!req.headers['authorization']){
+        const authHeader = req.headers['authorization']
+        if(!authHeader){
             return res
             .status(400)
             .json({success:false, message:'Please login!'})
         }
-        const authHeader = req.headers['authorization']
         const bearerToken = authHeader.split(' ')
         const token = bearerToken[1]
     
-        const verify = jwt.verify(token,process.env.JWT_SECRET_KEY)
-        req.user = await User.findById({_id:verify.userId})
+        jwt.verify(token,process.env.JWT_SECRET_KEY, (err,data) => {
+            if (err) {
+                return res.status(401).send({ message: "Unauthorized!" })
+            }
+            req.id = data.userId
+        })
+        req.user = await User.findById({_id:req.id})
+        if(!req.user){
+            return res
+            .status(400)
+            .json({success:false, message:'User not exsist!'})
+        }
         next()
     } catch (error) {
         return next(error)

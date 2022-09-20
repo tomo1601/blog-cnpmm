@@ -11,14 +11,15 @@ const ReplySchema = new Schema(
     },
     commentId: {
       type: mongoose.Schema.ObjectId,
-      ref: 'Comment',
+      ref: 'comment',
       required: true
     },
     userId: {
       type: mongoose.Schema.ObjectId,
-      ref: 'User',
+      ref: 'users',
       required: true
     }
   },
   { toJSON: { virtuals: true }, toObject: { virtuals: true }, timestamps: true }
 )
+module.exports = mongoose.model('reply',ReplySchema)

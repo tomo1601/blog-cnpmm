@@ -2,11 +2,16 @@ POST   http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "username":"tuananh",
+    "username":"username2",
     "password":"1234567"
 }
 
 ###
 GET http://localhost:5000/api/auth/getuser
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM1OTY2MjF9.De99CbPH8EP5jQ0-o4VHntvRyi_spEpy_9ir6D53nqc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM2NzA2NDMsImV4cCI6MTY2MzkyOTg0M30.rvoKrlXr3mkdsLKfGqWDl0gUmN_XnhLv1bWa-h8dNO4
+
+###
+Get  http://localhost:5000/api/auth/logout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM1OTg1Mzh9._PCr04GFyxCyJezJnwAkufq9okLe5K1lYZDSnY0KsJg
