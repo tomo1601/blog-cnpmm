@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const UserSchema = new Schema({
-    username: {
+    username:{
         type: String,
         required: true,
         unique: true
@@ -14,29 +14,24 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
-        unique: true,
-        uniqueCaseInsensitive: true,
-        match: [
-            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-            'Please add a valid email'
-        ]
+        unique: true
     },
-    avatar: {
+    avatar:{
         type: String,
         default: ""
     },
-    role: {
+    role:{
         type: String,
         default: "User"
     },
-    createDate: {
+    createDate:{
         type: Date,
         default: Date.now
     },
-    status: {
+    status:{
         type: String,
-        enum: ['ACTIVE', 'NOT ACTIVE']
+        enum: ['ACTIVE','NOT ACTIVE']
     }
 })
 
-module.exports = mongoose.model('users', UserSchema)
+module.exports = mongoose.model('users',UserSchema)
