@@ -1,15 +1,20 @@
-POST   http://localhost:5000/api/auth/login
+POST  http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "username":"username2",
+    "username":"tuananh",
     "password":"1234567"
 }
 
 ###
-GET http://localhost:5000/api/auth/getuser
+GET http://localhost:5000/api/user/632b02ad070d6e22ac8cb371
+
+
+###
+GET http://localhost:5000/api/user/get-all
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM2NzA2NDMsImV4cCI6MTY2MzkyOTg0M30.rvoKrlXr3mkdsLKfGqWDl0gUmN_XnhLv1bWa-h8dNO4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM3NDk0MzUsImV4cCI6MTY2NDAwODYzNX0.6wZ93eM5xyphsA_x6owvj5O2Ngfr30f72LxH2Vz9qRs
+
 
 ###
 Get  http://localhost:5000/api/auth/logout

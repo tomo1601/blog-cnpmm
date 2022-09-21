@@ -19,6 +19,7 @@ router.post('/register', body('email').isEmail().normalizeEmail(), async (req, r
     }
 
     const { username, password, email, avatar } = req.body
+    email = email.toLowerCase()
 
     if (!username || !password || !email) {
         return res
@@ -81,11 +82,18 @@ router.post('/login', async (req, res) => {
 
     try {
         const user = await User.findOne({ username: req.body.username })
+        if(user.status === 'NOT ACTIVE'){
+            return res
+                .status(400)
+                .json({ success: false, message: 'This user is blocked!' })
+        }
+
         if (!user) {
             return res
                 .status(400)
                 .json({ success: false, message: 'Incorrect username!' })
         }
+        
         const validPassword = await argon2.verify(user.password, req.body.password)
         if (!validPassword) {
             return res
@@ -108,64 +116,5 @@ router.post('/login', async (req, res) => {
 router.get("/logout", verifyAccessToken, async (req, res) => {
     res.send("Logout successful!")
 });
-
-router.delete("/delete-user/:id", verifyAccessToken, async (req, res) => {
-    // await Post.find({user:req.params.id})
-    // .then(function(posts){
-    //     if(posts){
-    //         return res.status(400)
-    //         .json({message: 'Can not delete this user!' })
-    //     }
-    // })
-    try {
-        await User.findByIdAndDelete({ _id: req.params.id })
-        res.send("Delete successful!")
-    } catch (error) {
-        console.log(error)
-        res.status(500).json(error)
-    }
-});
-//get put delete post
-// @desc    change user's password
-router.put("/update-password/:id", verifyAccessToken, async (req, res) => {
-
-    try {
-        const user = await User.findById({ _id: req.params.id })
-        if (!(await argon2.verify(user.password, req.body.currentPassword))) {
-
-            return res.status(400).json({
-                success: false,
-                error: [
-                    { field: 'currentPassword', message: 'Current password is incorrect' }
-                ]
-            })
-        }
-        const hashedPassword = await argon2.hash(req.body.newPassword)
-        user.password = hashedPassword
-        await user.save()
-        const { password, __v, ...info } = user._doc
-        return res.json({ success: true, info })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json(error)
-    }
-});
-
-//test phân quyền
-router.get('/getuser', verifyAccessToken, verifyAdminRole, async (req, res) => {
-    try {
-        const listUser = await User.find()
-        if (!listUser) {
-            return res
-                .status(400)
-                .json({ message: 'No user found!' })
-        }
-        return res.json({ listUser: listUser })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json(error)
-    }
-
-})
 
 module.exports = router

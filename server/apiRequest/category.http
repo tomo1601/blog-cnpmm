@@ -1,0 +1,21 @@
+POST  http://localhost:5000/api/category/newcategory
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM2NzA2NDMsImV4cCI6MTY2MzkyOTg0M30.rvoKrlXr3mkdsLKfGqWDl0gUmN_XnhLv1bWa-h8dNO4
+
+{
+    "name": "news",
+    "description": "Breaking news"
+}
+
+###
+PUT  http://localhost:5000/api/category/632b2d7b12fd2be6d1c8121a
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM3NzM2NDksImV4cCI6MTY2NDAzMjg0OX0.L3MYDuihQTyw9r8EuJIDoKtbbo0ArJfhV-6cdFtLFxY
+
+{
+    "name": "News",
+    "description": "Breaking news"
+}
+
+###
+GET http://localhost:5000/api/category/632b2d7b12fd2be6d1c8121a

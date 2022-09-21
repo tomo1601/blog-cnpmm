@@ -1,6 +1,9 @@
 const express = require( 'express');
 const mongoose = require('mongoose');
 const authRouter = require('./routes/auth')
+const userRouter = require('./routes/user')
+const categoryRouter = require('./routes/category')
+
 
 require('dotenv').config()
 
@@ -22,8 +25,11 @@ connectDB()
 const app =express()
 
 app.use(express.json())
+app.use('/uploads',express.static('uploads'))
 
 app.use('/api/auth',authRouter)
+app.use('/api/user',userRouter)
+app.use('/api/category',categoryRouter)
 
 const PORT = 5000
 
