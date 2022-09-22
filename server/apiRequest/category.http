@@ -3,8 +3,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM2NzA2NDMsImV4cCI6MTY2MzkyOTg0M30.rvoKrlXr3mkdsLKfGqWDl0gUmN_XnhLv1bWa-h8dNO4
 
 {
-    "name": "news",
-    "description": "Breaking news"
+    "name": "Gaming",
+    "description": "Info about newset gaming"
 }
 
 ###
@@ -19,3 +19,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4M
 
 ###
 GET http://localhost:5000/api/category/get-all
+
+###
+DELETE http://localhost:5000/api/category/632ca08709817b9b5b8f6c72
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM3NzM2NDksImV4cCI6MTY2NDAzMjg0OX0.L3MYDuihQTyw9r8EuJIDoKtbbo0ArJfhV-6cdFtLFxY
