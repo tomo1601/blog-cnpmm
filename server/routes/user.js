@@ -7,6 +7,16 @@ const jwt = require('jsonwebtoken')
 const { body, validationResult } = require('express-validator')
 const User = require('../models/user')
 const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_service')
+const cloudinary = require('cloudinary').v2
+require("dotenv").config()
+const fs = require('fs')
+
+cloudinary.config({ 
+    cloud_name: process.env.CLOUD_NAME,
+    api_key: process.env.CLOUD_API_KEY,
+    api_secret: process.env.CLOUD_API_SECRET
+})
+
 
 //DELETE - delete user by id
 router.delete("/delete-user/:id", verifyAccessToken, async (req, res) => {
@@ -107,8 +117,14 @@ const upload = multer({
     })
 })
 
+const removeTmp = (path) =>{
+    fs.unlink(path, err=>{
+        if(err) throw err;
+    })
+}
+
 //POST - create new user
-router.post("/newuser", upload.single('avatar'),verifyAccessToken, verifyAdminRole, async (req, res)=>{
+router.post("/newuser",verifyAccessToken, verifyAdminRole, async (req, res)=>{
     const { username, password, email} = req.body
     try {
         const hashedPassword = await argon2.hash(req.body.password)
@@ -119,11 +135,6 @@ router.post("/newuser", upload.single('avatar'),verifyAccessToken, verifyAdminRo
             email,
             status: 'ACTIVE'
         })
-
-        if(req.file){
-            const avatar = "http://localhost:5000/"+ req.file.path
-            newUser.avatar = avatar
-        }
 
         await newUser.save()
 
@@ -136,14 +147,27 @@ router.post("/newuser", upload.single('avatar'),verifyAccessToken, verifyAdminRo
 })
 
 //PUT - change avatar
-router.put("/updateAvatar/:id", verifyAccessToken,upload.single('avatar'), async (req, res)=>{
+router.put("/changeAvatar/:id", verifyAccessToken,upload.single('avatar'), async (req, res)=>{
     if(!req.params.id){
         return res.status(400).json({
             message: 'Please enter ID!!' 
        })
     }
+
+    if(!req.file){
+        return res.status(400).json({
+            message: 'No images Selected!!' 
+       })
+    }
+
+    const options = {
+        folder: "cnpm moi",
+        use_filename: true,
+        unique_filename: false,
+        overwrite: true,
+    };
+
     try {
-        const url = "http://localhost:5000/"+ req.file.path
         const user = await User.findById({ _id: req.params.id })
         if(!user){
             return res.status(400).json({
@@ -151,7 +175,12 @@ router.put("/updateAvatar/:id", verifyAccessToken,upload.single('avatar'), async
             })
         }
 
-        user.avatar = url
+        // Upload the image
+        const result = await cloudinary.uploader.upload(req.file.path, options)
+        //remove file from local
+        removeTmp(req.file.path)
+
+        user.avatar = result.secure_url
         await user.save()
         const { password, __v, ...info } = user._doc
         return res.json({ success: true, info })

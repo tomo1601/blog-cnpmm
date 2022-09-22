@@ -1,0 +1,10 @@
+POST http://localhost:5000/api/post/newpost
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM4MTA4MDUsImV4cCI6MTY2NDA3MDAwNX0.d8vB6H5avUp0I6quXjj8eBNoSOQst5kBBX2T2kmrgkI
+
+{
+    "title":"TFT update version 3.1",
+    "desc":"Many chess changes",
+    "categoryId":"632b2485917b7e66adbc8a61"
+}
+

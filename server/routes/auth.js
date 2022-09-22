@@ -6,6 +6,7 @@ const { body, validationResult } = require('express-validator')
 const User = require('../models/user')
 const Post = require('../models/post')
 const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_service')
+require('dotenv').config()
 
 //Post: /register
 router.post('/register', body('email').isEmail().normalizeEmail(), async (req, res) => {
@@ -19,7 +20,6 @@ router.post('/register', body('email').isEmail().normalizeEmail(), async (req, r
     }
 
     const { username, password, email, avatar } = req.body
-    email = email.toLowerCase()
 
     if (!username || !password || !email) {
         return res

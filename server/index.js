@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const authRouter = require('./routes/auth')
 const userRouter = require('./routes/user')
 const categoryRouter = require('./routes/category')
-
+const postRouter = require('./routes/post')
 
 require('dotenv').config()
 
@@ -30,6 +30,7 @@ app.use('/uploads',express.static('uploads'))
 app.use('/api/auth',authRouter)
 app.use('/api/user',userRouter)
 app.use('/api/category',categoryRouter)
+app.use('/api/post',postRouter)
 
 const PORT = 5000
 
