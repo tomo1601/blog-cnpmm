@@ -76,7 +76,6 @@ router.post('/newpost',verifyAccessToken, uploadFile.single('thum'),async(req,re
         const newPost = new Post({
             title,
             desc,
-            status:'PENDING',
             categoryId,
             userId: req.user._id
         })
@@ -97,6 +96,19 @@ router.post('/newpost',verifyAccessToken, uploadFile.single('thum'),async(req,re
         console.log(error)
         res.status(500).json(error)
     }
+})
+
+//delete
+router.delete('/delete-post/:id', verifyAccessToken, async(req,res)=>{
+    let post = await Post.findOne({ userId: req.user._id, _id: req.params.id }) //userId de kiem tra co phai nguoi viet bai
+                                                                                //muon xoa bai viet hay khong
+    
+    if(!post) {
+        return res.status(400).json({success: false, error:"Post not exsist!!"})
+    }
+
+    await post.remove();
+    return res.json({ success: true, post });
 })
 
 module.exports = router
