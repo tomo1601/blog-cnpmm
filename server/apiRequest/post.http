@@ -8,3 +8,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4M
     "categoryId":"632b2485917b7e66adbc8a61"
 }
 
+###
+GET http://localhost:5000/api/post/get-all
+
+###
+GET http://localhost:5000/api/post/632beb6a22c0a7dd279e95d1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM4MTA4MDUsImV4cCI6MTY2NDA3MDAwNX0.d8vB6H5avUp0I6quXjj8eBNoSOQst5kBBX2T2kmrgkI

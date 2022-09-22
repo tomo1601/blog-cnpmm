@@ -56,6 +56,7 @@ router.post('/upload/:id',verifyAccessToken,uploadFile.single('thum'),async (req
     
 })
 
+//- POST - create new post
 router.post('/newpost',verifyAccessToken, uploadFile.single('thum'),async(req,res)=>{
     const{title,desc,categoryId} = req.body
 
@@ -67,7 +68,6 @@ router.post('/newpost',verifyAccessToken, uploadFile.single('thum'),async(req,re
     }
 
     try {
-
         const category = await Category.findById(req.body.categoryId)
         if(!category){
             return res.status(400).json({success: false, error:"Category not exsist!!"})
@@ -108,7 +108,45 @@ router.delete('/delete-post/:id', verifyAccessToken, async(req,res)=>{
     }
 
     await post.remove();
-    return res.json({ success: true, post });
+    return res.json({ message:"Delete successfully!!" });
+})
+
+//GET - get all post
+router.get('/get-all',async(req,res)=>{
+    try {
+        const listPost = await Post.find().sort({createDate:-1}).populate("userId",["username","avatar"])
+        if(!listPost){
+            return res
+                .status(400)
+                .json({ message: 'No Post found!' })
+        }
+        res.json({ listPost: listPost })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+//GET - get post by id
+router.get("/:id",verifyAccessToken,async(req,res)=>{
+    if(!req.params.id){
+        return res.status(400).json({
+            message: 'Please enter ID!!' 
+       })
+    }
+    try {
+        const post = await Post.findById(req.params.id)
+        .populate("userId",["username","avatar"])
+        if(!post){
+            return res
+                .status(400)
+                .json({ message: 'Invalid ID!!' })
+        }
+        res.json({ success: true, post })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
 })
 
 module.exports = router
