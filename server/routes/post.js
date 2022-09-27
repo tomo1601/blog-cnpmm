@@ -98,6 +98,51 @@ router.post('/newpost',verifyAccessToken, uploadFile.single('thum'),async(req,re
     }
 })
 
+//PUT - Edit post
+router.put('/:id', verifyAccessToken,uploadFile.single('thum'), async(req,res)=>{
+
+    if(!req.params.id){
+        return res.status(400).json({
+            message: 'Please enter POST ID!!'
+       })
+    }
+
+    const options = {
+        folder: "cnpm moi",
+        use_filename: true,
+        unique_filename: false,
+        overwrite: true,
+    }
+
+    try {
+        const editPost = await Post.findByIdAndUpdate(req.params.id, req.body)
+        if(!editPost){
+            return res.status(400).json({success: false, error:"Post not exsist!!"})
+        }
+
+        const category = await Category.findById(req.body.categoryId)
+        if(!category){
+            return res.status(400).json({success: false, error:"Category not exsist!!"})
+        }
+
+        if(req.file){
+            // Upload the image
+            const result = await cloudinary.uploader.upload(req.file.path, options)
+            //remove file from local
+            removeTmp(req.file.path)
+
+            editPost.photo = result.secure_url
+        }
+
+        await editPost.save()
+
+        return res.json({ success: true, editPost })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
 //delete
 router.delete('/delete-post/:id', verifyAccessToken, async(req,res)=>{
     let post = await Post.findOne({ userId: req.user._id, _id: req.params.id }) //userId de kiem tra co phai nguoi viet bai
@@ -131,7 +176,7 @@ router.get('/get-all',async(req,res)=>{
 router.get("/:id",verifyAccessToken,async(req,res)=>{
     if(!req.params.id){
         return res.status(400).json({
-            message: 'Please enter ID!!' 
+            message: 'Please enter POST ID!!' 
        })
     }
     try {
@@ -143,6 +188,31 @@ router.get("/:id",verifyAccessToken,async(req,res)=>{
                 .json({ message: 'Invalid ID!!' })
         }
         res.json({ success: true, post })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+//GET - get post by userid - ?userId=
+router.get("/", async(req,res)=>{
+    if(!req.query.userId){
+        return res.status(400).json({
+            message: 'Please enter USER ID!!' 
+       })
+    }
+
+    try {
+        const post = await Post.find({userId: req.query.userId})
+        .sort({createDate:-1}).populate("userId",["username","avatar"])
+        if(!post){
+            return res
+                .status(400)
+                .json({ message: 'Invalid ID!!' })
+        }
+
+        res.json({ success: true, post })
+
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
