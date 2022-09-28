@@ -1,10 +1,10 @@
 POST http://localhost:5000/api/post/newpost
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM4MTA4MDUsImV4cCI6MTY2NDA3MDAwNX0.d8vB6H5avUp0I6quXjj8eBNoSOQst5kBBX2T2kmrgkI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM0M2ViODNhMmQyMzA5NjY0NmNhMDYiLCJpYXQiOjE2NjQzNjgzMjAsImV4cCI6MTY2NDYyNzUyMH0.D2GLIedOmbPPK_Ocb7eooFcSBDDIWXcAHhWsiRvGT74
 
 {
-    "title":"TFT update version 3.1",
-    "desc":"Many chess changes",
+    "title":"Genshin Impact",
+    "desc":"Joke with Cyno",
     "categoryId":"632b2485917b7e66adbc8a61"
 }
 
@@ -14,8 +14,8 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQyNDA5OTksImV4cCI6MTY2NDUwMDE5OX0.SYQL2MA3_RbCzv7HaVqB6iBh_2aw8dys_NwY_dJ_1zU
 
 {
-    "title":"TFT update version 3.2",
-    "desc":"Buff's Water dragon ",
+    "title":"TFT version 3.2",
+    "desc":"Neff Slayer dragon ",
     "categoryId":"632b2485917b7e66adbc8a61"
 }
 
@@ -23,8 +23,8 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4M
 GET http://localhost:5000/api/post/get-all
 
 ###
-GET http://localhost:5000/api/post/632beb6a22c0a7dd279e95d1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM4MTA4MDUsImV4cCI6MTY2NDA3MDAwNX0.d8vB6H5avUp0I6quXjj8eBNoSOQst5kBBX2T2kmrgkI
+GET http://localhost:5000/api/post/632bc231df437c9ec64f5d57
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQyNDA5OTksImV4cCI6MTY2NDUwMDE5OX0.SYQL2MA3_RbCzv7HaVqB6iBh_2aw8dys_NwY_dJ_1zU
 
 ###
 GET http://localhost:5000/api/post?userId=632805974c49bcc495054d0f

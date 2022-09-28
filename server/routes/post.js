@@ -115,7 +115,7 @@ router.put('/:id', verifyAccessToken,uploadFile.single('thum'), async(req,res)=>
     }
 
     try {
-        const editPost = await Post.findByIdAndUpdate(req.params.id, req.body)
+        const editPost = await Post.findById(req.params.id)
         if(!editPost){
             return res.status(400).json({success: false, error:"Post not exsist!!"})
         }
@@ -124,6 +124,10 @@ router.put('/:id', verifyAccessToken,uploadFile.single('thum'), async(req,res)=>
         if(!category){
             return res.status(400).json({success: false, error:"Category not exsist!!"})
         }
+
+        editPost.title = req.body.title
+        editPost.desc = req.body.desc
+        editPost.categoryId = req.body.categoryId
 
         if(req.file){
             // Upload the image

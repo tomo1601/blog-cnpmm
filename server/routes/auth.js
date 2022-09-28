@@ -82,16 +82,16 @@ router.post('/login', async (req, res) => {
 
     try {
         const user = await User.findOne({ username: req.body.username })
-        if(user.status === 'NOT ACTIVE'){
-            return res
-                .status(400)
-                .json({ success: false, message: 'This user is blocked!' })
-        }
-
         if (!user) {
             return res
                 .status(400)
                 .json({ success: false, message: 'Incorrect username!' })
+        }
+        
+        if(user.status === 'NOT ACTIVE'){
+            return res
+                .status(400)
+                .json({ success: false, message: 'This user is blocked!' })
         }
         
         const validPassword = await argon2.verify(user.password, req.body.password)

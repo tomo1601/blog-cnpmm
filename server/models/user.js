@@ -39,4 +39,14 @@ const UserSchema = new Schema({
     }
 })
 
+UserSchema.index({ username: 'text' })
+
+UserSchema.virtual('postes', {
+    ref: 'posts',
+    localField: '_id',
+    foreignField: 'userId',
+    justOne: false,
+    count: true
+  })
+
 module.exports = mongoose.model('users', UserSchema)
