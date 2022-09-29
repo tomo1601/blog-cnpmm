@@ -14,24 +14,35 @@ require("dotenv").config()
 router.get('/search', async(req,res)=>{
     const keyword = req.query.keyword
 
-    const users = await User.find({$text:{$search:keyword}})
+    const users = await User.find({username:{$regex:keyword, $options:'i'}})
 
-    const category = await Category.findOne({$text:{$search:keyword}})
+    const category = await Category.find({
+        $or:[
+            {name:{$regex:keyword, $options:'i'}},
+            {description:{$regex:keyword, $options:'i'}}
+        ]
+    })
 
-    const posts = await Post.find({ $text: { $search: keyword } })
-        .populate("categoryId")
-        .populate("userId")
+    const posts = await Post.find({
+        $or:[
+            {title: {$regex:keyword, $options:'i'}},
+            {desc: {$regex:keyword, $options:'i'}}
+        ]
+    }).populate("categoryId").populate("userId")
 
     if(users){
         const posts = await Post.find({userId: users})
-        .populate("categoryId")
-
+            .populate("categoryId")
+            .populate("userId")
+    
         users.push(...posts)
+        
     }
 
     if(category){
-        const posts = await Post.find({userId: users})
+        const posts = await Post.find({categoryId: category})
         .populate("userId")
+        .populate("categoryId")
 
         users.push(...posts)
     }
@@ -41,7 +52,8 @@ router.get('/search', async(req,res)=>{
     }
 
     let search = users
-    if(!search){
+    console.log(search)
+    if(search.length === 0){
         return res.status(400).json({message: "Not found!!"})
     }
 
