@@ -17,6 +17,14 @@ const PostSchema = new Schema({
         default:'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fno-image-available&psig=AOvVaw0ZCprME6eBol2mrfo7uWJR&ust=1663898037799000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCLiy3bClp_oCFQAAAAAdAAAAABAD',
         required: false
     },
+    likes:{
+        type: Number,
+        default: 0
+    },
+    dislikes:{
+        type: Number,
+        default: 0
+    },
     createDate:{
         type: Date,
         default: Date.now
@@ -32,26 +40,6 @@ const PostSchema = new Schema({
 },
 { toJSON: { virtuals: true }, toObject: { virtuals: true }}
 )
-
-PostSchema.index({ title: 'text'})
-
-PostSchema.virtual('likes', {
-    ref: 'feeling',
-    localField: '_id',
-    foreignField: 'postId',
-    justOne: false,
-    count: true,
-    match: { type: 'like' }
-})
-
-PostSchema.virtual('dislikes', {
-    ref: 'feeling',
-    localField: '_id',
-    foreignField: 'postId',
-    justOne: false,
-    count: true,
-    match: { type: 'dislike' }
-})
 
 PostSchema.virtual('comments', {
     ref: 'comment',

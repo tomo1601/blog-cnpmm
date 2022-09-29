@@ -3,9 +3,9 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM0M2ViODNhMmQyMzA5NjY0NmNhMDYiLCJpYXQiOjE2NjQzNjgzMjAsImV4cCI6MTY2NDYyNzUyMH0.D2GLIedOmbPPK_Ocb7eooFcSBDDIWXcAHhWsiRvGT74
 
 {
-    "title":"Genshin Impact",
-    "desc":"Joke with Cyno",
-    "categoryId":"632b2485917b7e66adbc8a61"
+    "title":"DLSS and FSR",
+    "desc":"Returnal PC leaks again, definitely has DLSS and FSR support",
+    "categoryId":"632b2d7b12fd2be6d1c8121a"
 }
 
 ###
@@ -14,9 +14,9 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQyNDA5OTksImV4cCI6MTY2NDUwMDE5OX0.SYQL2MA3_RbCzv7HaVqB6iBh_2aw8dys_NwY_dJ_1zU
 
 {
-    "title":"TFT version 3.2",
-    "desc":"Neff Slayer dragon ",
-    "categoryId":"632b2485917b7e66adbc8a61"
+    "title":"DLSS and FSR",
+    "desc":"Returnal PC leaks again, definitely has DLSS and FSR support",
+    "categoryId":"632b2d7b12fd2be6d1c8121a"
 }
 
 ###

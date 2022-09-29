@@ -23,8 +23,6 @@ const CategorySchema = new Schema({
     }
 })
 
-CategorySchema.index({ name: 'text'})
-
 CategorySchema.plugin(uniqueValidator, { message: '{PATH} already exists.' })
 
 module.exports = mongoose.model('category',CategorySchema)

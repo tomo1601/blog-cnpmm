@@ -5,6 +5,7 @@ const userRouter = require('./routes/user')
 const categoryRouter = require('./routes/category')
 const postRouter = require('./routes/post')
 const searchRouter = require('./routes/search')
+const feelingRouter = require('./routes/feeling')
 
 require('dotenv').config()
 
@@ -33,6 +34,7 @@ app.use('/api/user',userRouter)
 app.use('/api/category',categoryRouter)
 app.use('/api/post',postRouter)
 app.use('/api',searchRouter)
+app.use('/api/feeling',feelingRouter)
 
 const PORT = 5000
 
