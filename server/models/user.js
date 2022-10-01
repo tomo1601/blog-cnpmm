@@ -33,6 +33,11 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    otp:{
+        type: String,
+        require: false,
+        default:''
+    },
     status: {
         type: String,
         enum: ['ACTIVE', 'NOT ACTIVE']

@@ -2,8 +2,8 @@ POST  http://localhost:5000/api/auth/login
 Content-Type: application/json
 
 {
-    "username":"username2",
-    "password":"1234567"
+    "username":"username3",
+    "password":"278465"
 }
 
 ###
@@ -20,3 +20,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4M
 Get  http://localhost:5000/api/auth/logout
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM1OTg1Mzh9._PCr04GFyxCyJezJnwAkufq9okLe5K1lYZDSnY0KsJg
+
+###
+GET http://localhost:5000/api/auth/forgotpassword
+Content-Type: application/json
+
+{
+    "username":"username3",
+    "email":"ngoanh91thangnhat@gmail.com"
+}

@@ -6,6 +6,7 @@ const { body, validationResult } = require('express-validator')
 const User = require('../models/user')
 const Post = require('../models/post')
 const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_service')
+const sendMail = require('../middlewares/mail_service')
 require('dotenv').config()
 
 //Post: /register
@@ -116,5 +117,53 @@ router.post('/login', async (req, res) => {
 router.get("/logout", verifyAccessToken, async (req, res) => {
     res.send("Logout successful!")
 });
+
+//send mail to reset password
+router.get("/forgotpassword", async (req, res) => {
+    try {
+        const user = await User.findOne({ username: req.body.username})
+        if (!user) {
+            return res
+                .status(400)
+                .json({ success: false, message: 'Incorrect username or email!' })
+        }
+
+        let otpCode = Math.floor(100000 + Math.random() * 900000).toString()
+        let text = `http://localhost:5000/api/auth/changepasswordwithotp?otp=${otpCode}&id=${user._id}`
+
+        user.otp = otpCode
+        await user.save()
+
+        await sendMail(req.body.email,"Here is your OTP code to change password!!",text)
+        res.json({sucess: true})
+        
+        
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+router.get("/changepasswordwithotp", async (req, res) => {
+    try {
+        
+        const user = await User.findById({ _id: req.query.id })
+
+        if(!user.otp === req.query.otp){
+            return res.status(400).json({message:"Invalid OTP"})
+        }
+
+        const hashedPassword = await argon2.hash(req.query.otp)
+        user.password = hashedPassword
+        await user.save()
+        return res.json({ success: true, message:`Your new password is ${req.query.otp}` })
+    
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
 
 module.exports = router
