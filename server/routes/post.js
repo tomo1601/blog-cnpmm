@@ -7,6 +7,8 @@ const { body, validationResult } = require('express-validator')
 const User = require('../models/user')
 const Category = require('../models/category')
 const Post = require('../models/post')
+const Feeling = require('../models/feeling')
+const Comment = require('../models/comment')
 const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_service')
 const cloudinary = require('cloudinary').v2
 require("dotenv").config()
@@ -156,6 +158,9 @@ router.delete('/delete-post/:id', verifyAccessToken, async(req,res)=>{
         return res.status(400).json({success: false, error:"Post not exsist!!"})
     }
 
+    await Feeling.deleteMany({postId:req.params.id})
+    await Comment.deleteMany({postId:req.params.id})
+
     await post.remove();
     return res.json({ message:"Delete successfully!!" });
 })
@@ -163,7 +168,9 @@ router.delete('/delete-post/:id', verifyAccessToken, async(req,res)=>{
 //GET - get all post
 router.get('/get-all',async(req,res)=>{
     try {
-        const listPost = await Post.find().sort({createDate:-1}).populate("userId",["username","avatar"])
+        const listPost = await Post.find().sort({createDate:-1})
+        .populate("userId",["username","avatar"])
+        .populate("comments")
         if(!listPost){
             return res
                 .status(400)
@@ -186,6 +193,7 @@ router.get("/:id",verifyAccessToken,async(req,res)=>{
     try {
         const post = await Post.findById(req.params.id)
         .populate("userId",["username","avatar"])
+        .populate("comments")
         if(!post){
             return res
                 .status(400)
@@ -208,7 +216,7 @@ router.get("/", async(req,res)=>{
 
     try {
         const post = await Post.find({userId: req.query.userId})
-        .sort({createDate:-1}).populate("userId",["username","avatar"])
+        .sort({createDate:-1}).populate("userId",["username","avatar"]).populate("comments")
         if(!post){
             return res
                 .status(400)

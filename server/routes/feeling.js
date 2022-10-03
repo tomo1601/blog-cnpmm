@@ -13,6 +13,8 @@ require("dotenv").config()
 
 router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
     const post = await Post.findOne({_id:req.body.postId})
+    .populate("comments")
+    .populate("userId",["username","avatar"])
     if(!post){
         return res.status(400).json({success: false, error:"Post not exsist!!"})
     }

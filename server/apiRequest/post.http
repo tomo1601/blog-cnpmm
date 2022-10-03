@@ -20,11 +20,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4M
 }
 
 ###
+DELETE http://localhost:5000/api/post/delete-post/632beb6a22c0a7dd279e95d1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQ3ODg2MjEsImV4cCI6MTY2NTA0NzgyMX0.sbtnVd7dCdWTSgEY4tnK065qbLlY9X7GGeB4N6JLxi0
+
+###
 GET http://localhost:5000/api/post/get-all
 
 ###
 GET http://localhost:5000/api/post/632bc231df437c9ec64f5d57
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQyNDA5OTksImV4cCI6MTY2NDUwMDE5OX0.SYQL2MA3_RbCzv7HaVqB6iBh_2aw8dys_NwY_dJ_1zU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI5ZTFmMjM2MDhhM2E4MGM5NmFlYTMiLCJpYXQiOjE2NjQ3ODI0MDYsImV4cCI6MTY2NTA0MTYwNn0.bf8AZOLzMEqnt6AVzSavXdeVwNwaht04_aLgbEmMgEg
 
 ###
 GET http://localhost:5000/api/post?userId=632805974c49bcc495054d0f

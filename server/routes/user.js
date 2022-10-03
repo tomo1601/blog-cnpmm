@@ -208,7 +208,7 @@ router.put("block/:id", verifyAccessToken, verifyAdminRole, async (req, res)=>{
 
         user.status = 'NOT ACTIVE'
         await user.save()
-        const { password, __v, ...info } = user._doc
+        const { password, __v,otp, ...info } = user._doc
         return res.json({ success: true, info })
     } catch (error) {
         console.log(error)
