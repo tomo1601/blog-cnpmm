@@ -20,13 +20,18 @@ cloudinary.config({
 
 //DELETE - delete user by id
 router.delete("/delete-user/:id", verifyAccessToken, async (req, res) => {
-    // await Post.find({user:req.params.id})
-    // .then(function(posts){
-    //     if(posts){
-    //         return res.status(400)
-    //         .json({message: 'Can not delete this user!' })
-    //     }
-    // })
+    if(!req.params.id){
+        return res.status(400).json({
+            message: 'Please enter ID!!' 
+       })
+    }
+    await Post.find({userId:req.params.id})
+    .then(function(posts){
+        if(posts){
+            return res.status(400)
+            .json({message: 'You must delete all your post before delete your account!' })
+        }
+    })
     try {
         await User.findByIdAndDelete({ _id: req.params.id })
         res.send("Delete successful!")

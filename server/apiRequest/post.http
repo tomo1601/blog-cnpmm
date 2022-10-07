@@ -1,11 +1,11 @@
 POST http://localhost:5000/api/post/newpost
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM0M2ViODNhMmQyMzA5NjY0NmNhMDYiLCJpYXQiOjE2NjQzNjgzMjAsImV4cCI6MTY2NDYyNzUyMH0.D2GLIedOmbPPK_Ocb7eooFcSBDDIWXcAHhWsiRvGT74
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjUxNTYxMjIsImV4cCI6MTY2NTQxNTMyMn0.7xJ94JpcBM24N44szgX08W_SXJjtSaAy8bwUchs8GQI
 
 {
-    "title":"DLSS and FSR",
-    "desc":"Returnal PC leaks again, definitely has DLSS and FSR support",
-    "categoryId":"632b2d7b12fd2be6d1c8121a"
+    "title":"DC Fanfic: A Wonder-ful Disguise (P.2)",
+    "desc":"Pamela Ishley hay Poison Ivy, đảo mắt một vòng và thở dài, trước khi nói tiếng “Không.”",
+    "categoryId":"632b2485917b7e66adbc8a61"
 }
 
 ###
@@ -33,3 +33,16 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI5Z
 
 ###
 GET http://localhost:5000/api/post?userId=632805974c49bcc495054d0f
+
+###
+DELETE http://localhost:5000/api/post/delete-post
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjUxNTYxMjIsImV4cCI6MTY2NTQxNTMyMn0.7xJ94JpcBM24N44szgX08W_SXJjtSaAy8bwUchs8GQI
+
+{
+    "id":
+    [
+        "634044aae9f3ac1ea2788ee4",
+        "6340445ee9f3ac1ea2788ee0"
+    ]
+}
