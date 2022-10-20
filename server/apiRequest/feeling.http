@@ -1,0 +1,8 @@
+POST http://localhost:5000/api/feeling/createFeeling
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzM0M2ViODNhMmQyMzA5NjY0NmNhMDYiLCJpYXQiOjE2NjQzNjgzMjAsImV4cCI6MTY2NDYyNzUyMH0.D2GLIedOmbPPK_Ocb7eooFcSBDDIWXcAHhWsiRvGT74
+
+{
+    "type":"like",
+    "postId":"632beb6a22c0a7dd279e95d1"
+}

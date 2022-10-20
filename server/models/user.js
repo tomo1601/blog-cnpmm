@@ -23,7 +23,7 @@ const UserSchema = new Schema({
     },
     avatar: {
         type: String,
-        default: ""
+        default: "https://firebasestorage.googleapis.com/v0/b/cnpm-30771.appspot.com/o/no-user.png?alt=media&token=517e08ab-6aa4-42eb-9547-b1b10f17caf0"
     },
     role: {
         type: String,
@@ -33,10 +33,23 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    otp:{
+        type: String,
+        require: false,
+        default:''
+    },
     status: {
         type: String,
         enum: ['ACTIVE', 'NOT ACTIVE']
     }
 })
+
+UserSchema.virtual('postes', {
+    ref: 'posts',
+    localField: '_id',
+    foreignField: 'userId',
+    justOne: false,
+    count: true
+  })
 
 module.exports = mongoose.model('users', UserSchema)
