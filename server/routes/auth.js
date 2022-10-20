@@ -6,6 +6,8 @@ const { body, validationResult } = require('express-validator')
 const User = require('../models/user')
 const Post = require('../models/post')
 const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_service')
+const sendMail = require('../middlewares/mail_service')
+require('dotenv').config()
 
 //Post: /register
 router.post('/register', body('email').isEmail().normalizeEmail(), async (req, res) => {
@@ -86,6 +88,13 @@ router.post('/login', async (req, res) => {
                 .status(400)
                 .json({ success: false, message: 'Incorrect username!' })
         }
+        
+        if(user.status === 'NOT ACTIVE'){
+            return res
+                .status(400)
+                .json({ success: false, message: 'This user is blocked!' })
+        }
+        
         const validPassword = await argon2.verify(user.password, req.body.password)
         if (!validPassword) {
             return res
@@ -109,63 +118,54 @@ router.get("/logout", verifyAccessToken, async (req, res) => {
     res.send("Logout successful!")
 });
 
-router.delete("/delete-user/:id", verifyAccessToken, async (req, res) => {
-    // await Post.find({user:req.params.id})
-    // .then(function(posts){
-    //     if(posts){
-    //         return res.status(400)
-    //         .json({message: 'Can not delete this user!' })
-    //     }
-    // })
+//send mail to reset password
+router.get("/forgotpassword", async (req, res) => {
     try {
-        await User.findByIdAndDelete({ _id: req.params.id })
-        res.send("Delete successful!")
-    } catch (error) {
-        console.log(error)
-        res.status(500).json(error)
-    }
-});
-//get put delete post
-// @desc    change user's password
-router.put("/update-password/:id", verifyAccessToken, async (req, res) => {
-
-    try {
-        const user = await User.findById({ _id: req.params.id })
-        if (!(await argon2.verify(user.password, req.body.currentPassword))) {
-
-            return res.status(400).json({
-                success: false,
-                error: [
-                    { field: 'currentPassword', message: 'Current password is incorrect' }
-                ]
-            })
-        }
-        const hashedPassword = await argon2.hash(req.body.newPassword)
-        user.password = hashedPassword
-        await user.save()
-        const { password, __v, ...info } = user._doc
-        return res.json({ success: true, info })
-    } catch (error) {
-        console.log(error)
-        res.status(500).json(error)
-    }
-});
-
-//test phân quyền
-router.get('/getuser', verifyAccessToken, verifyAdminRole, async (req, res) => {
-    try {
-        const listUser = await User.find()
-        if (!listUser) {
+        const user = await User.findOne({ username: req.body.username})
+        if (!user) {
             return res
                 .status(400)
-                .json({ message: 'No user found!' })
+                .json({ success: false, message: 'Incorrect username or email!' })
         }
-        return res.json({ listUser: listUser })
+
+        let otpCode = Math.floor(100000 + Math.random() * 900000).toString()
+        let text = `Click here: http://localhost:5000/api/auth/resetpassword?otp=${otpCode}&id=${user._id}`
+
+        user.otp = otpCode
+        await user.save()
+
+        await sendMail(req.body.email,"Here is your link to reset password!!",text)
+        res.json({sucess: true})
+        
+        
+
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
     }
+})
 
+//reset password
+router.get("/resetpassword", async (req, res) => {
+    try {
+        
+        const user = await User.findById({ _id: req.query.id })
+
+        if(!user.otp === req.query.otp){
+            return res.status(400).json({message:"Invalid OTP"})
+        }
+
+        const hashedPassword = await argon2.hash(req.query.otp)
+        user.password = hashedPassword
+        user.otp = ''
+        await user.save()
+        return res.json({ success: true, message:`Your new password is ${req.query.otp}` })
+    
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
 })
 
 module.exports = router

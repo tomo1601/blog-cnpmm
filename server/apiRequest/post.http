@@ -1,0 +1,48 @@
+POST http://localhost:5000/api/post/newpost
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjUxNTYxMjIsImV4cCI6MTY2NTQxNTMyMn0.7xJ94JpcBM24N44szgX08W_SXJjtSaAy8bwUchs8GQI
+
+{
+    "title":"DC Fanfic: A Wonder-ful Disguise (P.2)",
+    "desc":"Pamela Ishley hay Poison Ivy, đảo mắt một vòng và thở dài, trước khi nói tiếng “Không.”",
+    "categoryId":"632b2485917b7e66adbc8a61"
+}
+
+###
+PUT  http://localhost:5000/api/post/632bc231df437c9ec64f5d57
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQyNDA5OTksImV4cCI6MTY2NDUwMDE5OX0.SYQL2MA3_RbCzv7HaVqB6iBh_2aw8dys_NwY_dJ_1zU
+
+{
+    "title":"DLSS and FSR",
+    "desc":"Returnal PC leaks again, definitely has DLSS and FSR support",
+    "categoryId":"632b2d7b12fd2be6d1c8121a"
+}
+
+###
+DELETE http://localhost:5000/api/post/delete-post/632beb6a22c0a7dd279e95d1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQ3ODg2MjEsImV4cCI6MTY2NTA0NzgyMX0.sbtnVd7dCdWTSgEY4tnK065qbLlY9X7GGeB4N6JLxi0
+
+###
+GET http://localhost:5000/api/post/get-all
+
+###
+GET http://localhost:5000/api/post/632bc231df437c9ec64f5d57
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI5ZTFmMjM2MDhhM2E4MGM5NmFlYTMiLCJpYXQiOjE2NjQ3ODI0MDYsImV4cCI6MTY2NTA0MTYwNn0.bf8AZOLzMEqnt6AVzSavXdeVwNwaht04_aLgbEmMgEg
+
+###
+GET http://localhost:5000/api/post?userId=632805974c49bcc495054d0f
+
+###
+DELETE http://localhost:5000/api/post/delete-post
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjUxNTYxMjIsImV4cCI6MTY2NTQxNTMyMn0.7xJ94JpcBM24N44szgX08W_SXJjtSaAy8bwUchs8GQI
+
+{
+    "id":
+    [
+        "634044aae9f3ac1ea2788ee4",
+        "6340445ee9f3ac1ea2788ee0"
+    ]
+}

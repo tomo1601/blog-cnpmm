@@ -1,0 +1,25 @@
+POST  http://localhost:5000/api/category/newcategory
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjUxNTYxMjIsImV4cCI6MTY2NTQxNTMyMn0.7xJ94JpcBM24N44szgX08W_SXJjtSaAy8bwUchs8GQI
+
+{
+    "name": "Gaming",
+    "description": "Info about newset gaming"
+}
+
+###
+PUT  http://localhost:5000/api/category/632b2485917b7e66adbc8a62
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQyNDA5OTksImV4cCI6MTY2NDUwMDE5OX0.SYQL2MA3_RbCzv7HaVqB6iBh_2aw8dys_NwY_dJ_1zU
+
+{
+    "name": "LOL",
+    "description": "Best Gaming"
+}
+
+###
+GET http://localhost:5000/api/category/get-all
+
+###
+DELETE http://localhost:5000/api/category/632ca08709817b9b5b8f6c72
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjM3NzM2NDksImV4cCI6MTY2NDAzMjg0OX0.L3MYDuihQTyw9r8EuJIDoKtbbo0ArJfhV-6cdFtLFxY
