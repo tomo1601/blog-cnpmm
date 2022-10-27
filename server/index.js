@@ -7,6 +7,7 @@ const postRouter = require('./routes/post')
 const searchRouter = require('./routes/search')
 const feelingRouter = require('./routes/feeling')
 const commentRouter = require('./routes/comment')
+const cors = require('cors')
 
 require('dotenv').config()
 
@@ -37,7 +38,7 @@ app.use('/api/post',postRouter)
 app.use('/api',searchRouter)
 app.use('/api/feeling',feelingRouter)
 app.use('/api/comment',commentRouter)
-
+app.use(cors())
 const PORT = 5000
 
 app.listen(PORT, () =>console.log(`server start on port ${PORT}`))
