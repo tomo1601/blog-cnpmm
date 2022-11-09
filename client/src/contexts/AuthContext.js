@@ -83,20 +83,30 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
+  const getUserById = async (id) => {
+    try {
+      const response = await axios.post(`${apiUrl}/user/${id}`);
+      if (response.data.success)
+        return response.data;
+    } catch (error) {
+      if (error.response.data) return error.response.data;
+      else return { success: false, message: error.message };
+    }
+  }
   // logout
   const logout = () => {
-      localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
-      localStorage.removeItem(USER_ROLE)
-      dispatch({
-        type: "SET_AUTH",
-        payload: {
-          isAuthenticated: false,
-          user:null,
-          isUser: false,
-          isAdmin: false,
-        },
-      });
-    }
+    localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
+    localStorage.removeItem(USER_ROLE)
+    dispatch({
+      type: "SET_AUTH",
+      payload: {
+        isAuthenticated: false,
+        user: null,
+        isUser: false,
+        isAdmin: false,
+      },
+    });
+  }
   // Register user
   const registerUser = async (registerForm) => {
     try {
@@ -109,7 +119,8 @@ const AuthContextProvider = ({ children }) => {
     }
   };
   const authContextData = {
-    loginUser, registerUser, loginAdmin, logout, 
+    loginUser, registerUser, loginAdmin, logout,getUserById,
+    
   };
 
   //return

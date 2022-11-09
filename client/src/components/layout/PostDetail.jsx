@@ -2,7 +2,7 @@ import React from 'react'
 import { useContext, useEffect, useState } from 'react'
 import { PostContext } from '../../contexts/PostContext'
 import { useParams } from "react-router-dom";
-import Post from "./Post";
+import SinglePost from './SinglePost';
 
 const PostDetail = () => {
     let { id } = useParams()
@@ -14,14 +14,14 @@ const PostDetail = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             const res = await getPostById(id);
-            setPost(res);
+            setPost(res.post);
           };
           fetchPosts();
           
     }, [id]);
     
     return (
-        <div><Post post={post} key={post._id}/> </div>
+        <div><SinglePost post={post} key={id}/></div>
     )
 }
 
