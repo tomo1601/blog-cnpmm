@@ -29,7 +29,7 @@ const AdminLoginForm = () => {
             const userLoginData = await loginAdmin(adminLoginForm);
             if (!userLoginData.success) {
                 setAlert({ type: "danger", message: userLoginData.message });
-                setTimeout(() => setAlert(null), 10000);
+                setTimeout(() => setAlert(null), 5000);
             }
         } catch (error) {
             console.log(error);

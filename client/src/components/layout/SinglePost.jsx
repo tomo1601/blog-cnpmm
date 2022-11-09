@@ -1,24 +1,24 @@
 import { useContext, useEffect, useState, useRef } from "react";
+import { useParams } from "react-router";
 import { useLocation } from "react-router";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../context/AuthContext";
-import "./singlePost.css";
+import { AuthContext } from "../../contexts/AuthContext";
 import {Edit, Delete} from "@mui/icons-material";
-import PostService from "../../services/PostService";
-import FeelingService from "../../services/FeelingService";
-import CommentExampleComment from "../comment/Comment"
+import CommentExampleComment from "./Comment"
 import TextareaAutosize from 'react-textarea-autosize';
-
 import {Fab} from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import Badge from '@mui/material/Badge';
-
 import {FacebookShareButton} from "react-share";
+import { PostContext } from "../../contexts/PostContext";
+import axios from "axios";
+import { apiUrl } from "../../contexts/constants";
 
 export default function SinglePost() {
 
+  let {id} = useParams()
   const myRef = useRef(null);
 
   const executeScroll = () => myRef.current.scrollIntoView() 
@@ -29,27 +29,38 @@ export default function SinglePost() {
   const [post, setPost] = useState({});
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState([]);
+  const [category, setCategory] = useState();
   const [like, setLike] = useState(false);
   const [likes, setLikes] = useState(0);
   const [updateMode, setUpdateMode] = useState(false);
   const [loading, setLoading] = useState(true);
 
   const { user } = useContext(AuthContext);
+  const {getPostById} = useContext(PostContext)
 
   useEffect(() => {
     const getPost = async () => {
-      const res = await PostService.getById(path);
-      setPost(res.data.data);
-      setTitle(res.data.data.title);
-      setDescription(res.data.data.description);
-      setCategory(res.data.data.categoryId.title);
-      setLikes(res.data.data.likes);
+      const res = await getPostById(id);
+      const getCategory = async () => {
+        const response = await axios.get(
+          `${apiUrl}/category/${res.post.categoryId}`
+        );
+        if (response.data.success) {
+          setCategory(response.data.category.name)
+        }
+      }
+
+      getCategory()
+      console.log(res)
+      setPost(res.post);
+      setTitle(res.post.title);
+      setDescription(res.post.desc);
+      setLikes(res.post.likes);
       setLoading(!post ? true : false);
     };
     const checkLike = async () => {
-      const res = await FeelingService.checkFeeling({postId: path});
-      setLike(res.data.data.feeling ? true : false);
+      /* const res = await FeelingService.checkFeeling({postId: path});
+      setLike(res.data.data.feeling ? true : false); */
     }
     getPost();
     checkLike();
@@ -60,7 +71,7 @@ export default function SinglePost() {
     const confirm = window.confirm("Are you sure you want to delete this account?");
     if(confirm) {
       try {
-        await PostService.deleteById(post._id);
+        /* await PostService.deleteById(post._id); */
         window.location.replace("/");
       } catch (err) {
         console.log(err);
@@ -70,27 +81,27 @@ export default function SinglePost() {
 
   const handleUpdate = async () => {
     try {
-      await PostService.updatePost(post._id, {
+      /* await PostService.updatePost(post._id, {
         title,
         description,
         category,
-      });
+      }); */
       setUpdateMode(false)
     } catch (err) {}
   };
 
   const handleLike = async () => {
-    const res = await FeelingService.createFeeling({
+    /* const res = await FeelingService.createFeeling({
       postId: post._id,
       type: 'like'
     })
-    Object.getOwnPropertyNames(res.data.data).length === 0 ? setLike(false) : setLike(true)
+    Object.getOwnPropertyNames(res.data.data).length === 0 ? setLike(false) : setLike(true) */
   }
   return (
     <>
     {!loading ? (
       <div className="singlePost">
-        <div style={{ display: "flex", flexDirection: "column", padding:"60px", width: "20%", marginLeft:"20px"}}>
+        <div style={{ display: "flex", flexDirection: "column", padding:"20px", width: "15%", marginLeft:"20px"}}>
           <div style={{position: "sticky", top:"120px"}}>
             <FacebookShareButton url={window.location.href}
                 quote={"All is good"}
@@ -114,7 +125,7 @@ export default function SinglePost() {
 
         </div>
         <div className="singlePostWrapper">
-        <img src={post.thumbnailUrl} alt="" className="singlePostImg" />
+        <img src={post.photo} alt="" className="singlePostImg" />
           {updateMode ? (
             <input
               type="text"
@@ -136,12 +147,12 @@ export default function SinglePost() {
         <div className="singlePostInfo">
           <span className="singlePostAuthor">
             Author:{" "}
-            <Link to={`/?userId=${post.userId._id}`} className="link">
-              <b>{post.userId.userName}</b>
+            <Link to={`/user/${post.userId._id}`} className="link">
+              <b>{post.userId.username}</b>
             </Link>
           </span>
           <span className="singlePostCats">
-          Category:{" "}
+          Category: {category}
           {/* <Link to={`/?cat=${c.name}`} className="link" key={c._id}>
             <span className="postCat">{c.name}</span>
           </Link> */}
