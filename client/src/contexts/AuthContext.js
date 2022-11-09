@@ -82,6 +82,21 @@ const AuthContextProvider = ({ children }) => {
       else return { success: false, message: error.message };
     }
   };
+
+  // logout
+  const logout = () => {
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
+      localStorage.removeItem(USER_ROLE)
+      dispatch({
+        type: "SET_AUTH",
+        payload: {
+          isAuthenticated: false,
+          user:null,
+          isUser: false,
+          isAdmin: false,
+        },
+      });
+    }
   // Register user
   const registerUser = async (registerForm) => {
     try {
@@ -94,7 +109,7 @@ const AuthContextProvider = ({ children }) => {
     }
   };
   const authContextData = {
-    loginUser,registerUser, loginAdmin,
+    loginUser, registerUser, loginAdmin, logout, 
   };
 
   //return
