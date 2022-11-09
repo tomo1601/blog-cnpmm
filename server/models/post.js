@@ -14,7 +14,7 @@ const PostSchema = new Schema({
     },
     photo: {
         type: String,
-        default:'https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Fno-image-available&psig=AOvVaw0ZCprME6eBol2mrfo7uWJR&ust=1663898037799000&source=images&cd=vfe&ved=0CAwQjRxqFwoTCLiy3bClp_oCFQAAAAAdAAAAABAD',
+        default:'https://vnpi-hcm.vn/wp-content/uploads/2018/01/no-image-800x600.png',
         required: false
     },
     likes:{

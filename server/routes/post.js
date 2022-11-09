@@ -170,7 +170,7 @@ router.delete('/delete-post', verifyAccessToken, async(req,res)=>{
         await Post.deleteMany({'_id': { $in: list_id}})
 
         // await post.remove();
-        return res.json({ message:"Delete successfully!!" });
+        return res.json({ success: true, message:"Delete successfully!!" });
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
@@ -189,7 +189,7 @@ router.get('/get-all',async(req,res)=>{
                 .status(400)
                 .json({ message: 'No Post found!' })
         }
-        res.json({ listPost: listPost })
+        res.json({success: true, listPost: listPost })
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
