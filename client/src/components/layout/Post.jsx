@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react'
 export default function Post({ post }) {
 
   const handleView = async (id) => {
-    const viewPost = await axios.put(`${apiUrl}/post/${id}`)
+    const viewPost = await axios.get(`${apiUrl}/post/${id}`)
     if (viewPost.data.success)
       return viewPost.data
   };

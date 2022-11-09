@@ -8,6 +8,18 @@ export const PostReducer = (state, action) => {
                 posts: payload.data,
                 postsLoading: false
             }
+        case 'FIND_POSTS_SUCCESS':
+            return {
+                ...state,
+                posts: payload,
+                postsLoading: false
+            }
+        case 'FIND_POSTS_FAIL':
+            return {
+                ...state,
+                posts: {},
+                postsLoading: false
+            }
         default:
             return state
     }
