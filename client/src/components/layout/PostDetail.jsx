@@ -13,7 +13,7 @@ const PostDetail = () => {
     
     useEffect(() => {
         const fetchPosts = async () => {
-            const res = await getPostById();
+            const res = await getPostById(id);
             setPost(res);
           };
           fetchPosts();
@@ -21,7 +21,7 @@ const PostDetail = () => {
     }, [id]);
     
     return (
-        <div>{/* <Post post={post} key={post._id}/> */} postdetail</div>
+        <div><Post post={post} key={post._id}/> </div>
     )
 }
 

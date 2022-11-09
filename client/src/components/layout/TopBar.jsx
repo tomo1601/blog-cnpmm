@@ -1,15 +1,13 @@
 import { Link } from "react-router-dom";
-import "./topbar.css";
 import { Search} from '@mui/icons-material';
 import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import AuthenticationService from "../../services/AuthenticationService";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Topbar() {
   const {user, dispatch} = useContext(AuthContext);
   const handleLogout = async () => {
-    await AuthenticationService.logout()
-    dispatch({type: 'LOGOUT'})
+    /* await AuthenticationService.logout()
+    dispatch({type: 'LOGOUT'}) */
   };
   return (
     <div className="top">
