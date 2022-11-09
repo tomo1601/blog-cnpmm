@@ -1,11 +1,56 @@
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import {Link} from 'react-router-dom'
-
+import { useState, useContext } from 'react'
+import { AuthContext } from '../../contexts/AuthContext'
+import AlertMessage from '../layout/AlertMessage'
 
 
 const UserLoginForm =() =>{
 
+    //context
+    const {registerUser} = useContext(AuthContext)
+    const [authloading, setAuthLoading] = useState(false);
+    //local state
+    const [RegisterForm, setRegisterForm] = useState({
+        email: '',
+        password: '',
+        username:'',
+        confirmpassword:''
+    })
+   
+    const {email, password, username, confirmpassword} = RegisterForm
+    const onChangeRegisterForm = event => setRegisterForm({
+        ...RegisterForm, [event.target.name]:event.target.value
+    })
+    
+    const [alert, setAlert] =useState(null)
+
+    
+    const userRegister = async event =>{
+        setAuthLoading(true);
+        event.preventDefault()
+        if (confirmpassword!==password){
+            setAlert({type: 'danger', message: 'You must re-enter the correct confirmation password'})
+                setTimeout(()=> setAlert(null), 10000)
+        }
+        else {
+            try {
+                const userResgisterData = await registerUser(RegisterForm)
+                if(userResgisterData.success){
+                    setAlert({type: 'success', message: 'Account created successfully!'})
+                    setTimeout(()=> setAlert(null), 10000)
+                }
+                else{
+                    setAlert({type: 'danger', message: userResgisterData.message})
+                    setTimeout(()=> setAlert(null), 10000)
+                }
+            }
+            catch (error){
+                console.log(error)
+            }
+        }
+    }
     let body
 
     body = (
@@ -16,14 +61,17 @@ const UserLoginForm =() =>{
                 <div className='login-social'></div>
                 <span className='ute-login-sml-text'>Please enter your information</span>
             </div>
-            <Form className='my-4' id='form-login'>
+            <Form className='my-4' id='form-login' onSubmit={userRegister}>
+            <AlertMessage info={alert}/>
                 <Form.Group>
                     <Form.Label>Username</Form.Label>
                     <Form.Control 
                         type='text' 
                         placeholder='' 
-                        name='username' 
-                        required 
+                        name='username'
+                        value={username} 
+                        required
+                        onChange={onChangeRegisterForm} 
                         
                     />
                 </Form.Group>
@@ -32,9 +80,10 @@ const UserLoginForm =() =>{
                     <Form.Control 
                         type='text' 
                         placeholder='' 
-                        name='email' 
+                        name='email'
+                        value={email} 
                         required 
-                        
+                        onChange={onChangeRegisterForm} 
                     />
                 </Form.Group>
                 <Form.Group>
@@ -42,12 +91,24 @@ const UserLoginForm =() =>{
                     <Form.Control 
                         type='password' 
                         placeholder='' 
-                        name='password' 
+                        name='password'
+                        value={password} 
                         required 
-                        
+                        onChange={onChangeRegisterForm} 
                     />
                 </Form.Group>
-                <Button className='mt-2' variant='primary' type='submit'>Login</Button>
+                <Form.Group>
+                    <Form.Label>Confirm Password</Form.Label>
+                    <Form.Control 
+                        type='password' 
+                        placeholder='' 
+                        name='confirmpassword'
+                        value={confirmpassword} 
+                        required 
+                        onChange={onChangeRegisterForm} 
+                    />
+                </Form.Group>
+                <Button disabled={authloading} className='mt-2' variant='primary' type='submit'>Login</Button>
             </Form>
             <p> Aready have an account?
                 <Link to='/login'>
