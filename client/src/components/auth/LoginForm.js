@@ -30,7 +30,7 @@ const UserLoginForm = () => {
             const userLoginData = await loginUser(userLoginForm);
             if (!userLoginData.success) {
                 setAlert({ type: "danger", message: userLoginData.message });
-                setTimeout(() => setAlert(null), 10000);
+                setTimeout(() => setAlert(null), 5000);
             }
         } catch (error) {
             console.log(error);

@@ -32,18 +32,18 @@ const UserLoginForm =() =>{
         event.preventDefault()
         if (confirmpassword!==password){
             setAlert({type: 'danger', message: 'You must re-enter the correct confirmation password'})
-                setTimeout(()=> setAlert(null), 10000)
+                setTimeout(()=> setAlert(null), 5000)
         }
         else {
             try {
                 const userResgisterData = await registerUser(RegisterForm)
                 if(userResgisterData.success){
                     setAlert({type: 'success', message: 'Account created successfully!'})
-                    setTimeout(()=> setAlert(null), 10000)
+                    setTimeout(()=> setAlert(null), 5000)
                 }
                 else{
                     setAlert({type: 'danger', message: userResgisterData.message})
-                    setTimeout(()=> setAlert(null), 10000)
+                    setTimeout(()=> setAlert(null), 5000)
                 }
             }
             catch (error){
@@ -108,7 +108,7 @@ const UserLoginForm =() =>{
                         onChange={onChangeRegisterForm} 
                     />
                 </Form.Group>
-                <Button disabled={authloading} className='mt-2' variant='primary' type='submit'>Login</Button>
+                <Button className='mt-2' variant='primary' type='submit'>Register</Button>
             </Form>
             <p> Aready have an account?
                 <Link to='/login'>
