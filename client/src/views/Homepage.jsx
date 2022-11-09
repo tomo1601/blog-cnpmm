@@ -4,6 +4,7 @@ import Sidebar from "../components/layout/SideBar";
 import { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router";
 import { PostContext } from "../contexts/PostContext";
+import Topbar from "../components/layout/TopBar";
 
 export default function Homepage() {
 
@@ -30,6 +31,7 @@ export default function Homepage() {
   }, [search]);
   return (
     <>
+      <Topbar/>
       <Header />
       <div className="home">
         <Posts posts={posts} />
