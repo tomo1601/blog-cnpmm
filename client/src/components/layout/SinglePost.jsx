@@ -15,6 +15,7 @@ import {FacebookShareButton} from "react-share";
 import { PostContext } from "../../contexts/PostContext";
 import axios from "axios";
 import { apiUrl } from "../../contexts/constants";
+import Topbar from "./TopBar";
 
 export default function SinglePost() {
 
@@ -99,6 +100,7 @@ export default function SinglePost() {
   }
   return (
     <>
+    <Topbar/>
     {!loading ? (
       <div className="singlePost">
         <div style={{ display: "flex", flexDirection: "column", padding:"20px", width: "15%", marginLeft:"20px"}}>
@@ -159,12 +161,12 @@ export default function SinglePost() {
           <span className="singlePostCats">{post.categoryId.title}</span>
           </span>  
           <span className="singlePostCats">
-          Views:{" "}
-          <span className="singlePostCats">{post.views}</span> 
+          Likes:{" "}
+          <span className="singlePostCats">{post.likes}</span> 
           </span>  
 
           <span className="singlePostDate">
-            {new Date(post.createdAt).toDateString()}
+            {new Date(post.createDate).toDateString()}
           </span>
         </div>
         {updateMode ? (
