@@ -152,8 +152,8 @@ router.post("/newuser",verifyAccessToken, verifyAdminRole, async (req, res)=>{
 
 })
 
-//PUT - change avatar
-router.put("/changeAvatar/:id", verifyAccessToken,upload.single('avatar'), async (req, res)=>{
+//PUT - change profile
+router.put("/changeProfile/:id", verifyAccessToken,upload.single('avatar'), async (req, res)=>{
     if(!req.params.id){
         return res.status(400).json({
             message: 'Please enter ID!!' 
@@ -186,6 +186,7 @@ router.put("/changeAvatar/:id", verifyAccessToken,upload.single('avatar'), async
         //remove file from local
         removeTmp(req.file.path)
 
+        user.fullname = req.body.fullname
         user.avatar = result.secure_url
         await user.save()
         const { password, __v, ...info } = user._doc
