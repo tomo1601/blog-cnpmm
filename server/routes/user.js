@@ -130,13 +130,14 @@ const removeTmp = (path) =>{
 
 //POST - create new user
 router.post("/newuser",verifyAccessToken, verifyAdminRole, async (req, res)=>{
-    const { username, password, email} = req.body
+    const { username, password, email, fullname} = req.body
     try {
         const hashedPassword = await argon2.hash(req.body.password)
 
         const newUser = new User({
             username,
             password: hashedPassword,
+            fullname,
             email,
             status: 'ACTIVE'
         })
