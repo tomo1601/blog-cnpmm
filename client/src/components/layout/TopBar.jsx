@@ -4,11 +4,12 @@ import { useContext } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export default function Topbar() {
-  const {user, dispatch} = useContext(AuthContext);
+  const {authState: {user, isAuthenticated}, logout} = useContext(AuthContext);
   const handleLogout = async () => {
-    /* await AuthenticationService.logout()
-    dispatch({type: 'LOGOUT'}) */
+    await logout()
   };
+
+  console.log(isAuthenticated)
   return (
     <div className="top">
       <div className="topLeft">
@@ -35,8 +36,8 @@ export default function Topbar() {
               WRITE
             </Link>
           </li>
-          <li className="topListItem" onClick={handleLogout}>
-            {user && "LOGOUT"}
+          <li style={{ display: `${isAuthenticated ? 'block' : 'none'}` }} className="topListItem" onClick={handleLogout}>
+            LOGOUT
           </li>
         </ul>
       </div>
@@ -45,7 +46,7 @@ export default function Topbar() {
           <Link className="link" to="/settings">
             <img
               className="topImg"
-              src={user.photoUrl}
+              src={user.info.avatar}
               alt=""
             />
           </Link>

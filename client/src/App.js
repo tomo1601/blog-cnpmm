@@ -8,7 +8,8 @@ import AuthContextProvider from "./contexts/AuthContext"
 import PostContextProvider from "./contexts/PostContext"
 import About from './views/About'
 import PostDetail from './components/layout/PostDetail'
-import Profile from './components/layout/Profile';
+import Profile from './components/layout/Profile'
+import Write from './views/Write'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route exact path='/about' component={About}/>
             <Route exact path='/post/:id' component={PostDetail}/>
             <Route exact path='/user/:id' component={Profile}/>
+            {/* <Route exact path='/write' component={Write}/> */}
           </Switch>
         </Router>
       </AuthContextProvider>

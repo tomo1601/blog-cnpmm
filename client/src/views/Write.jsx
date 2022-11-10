@@ -1,19 +1,10 @@
 import { useState, useEffect } from "react";
-import "./write.css";
 import {Image} from "@mui/icons-material";
 import {Button, Menu, MenuItem} from '@mui/material';
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-} from "firebase/storage";
-import { storage } from "../../firebase";
-import PostService from "../../services/PostService";
-import CategoryService from "../../services/CategoryService";
 
-toast.configure();
+/* toast.configure(); */
 
 export default function Write() {
   
@@ -41,18 +32,18 @@ export default function Write() {
 
   useEffect(()=>{
     const getCats = async ()=> {
-      const res = await CategoryService.getAll()
-      setCats(res.data.data);
+      /* const res = await CategoryService.getAll()
+      setCats(res.data.data); */
       
     };
     getCats();
   },[]);
 
   const writeFunc = async (e, id) => {
-    const res = await PostService.uploadPost(e);
+    /* const res = await PostService.uploadPost(e);
     window.location.replace("/post/" + res.data.data._id);
     res ? toast.update(id, { render: "All is good", type: "success", isLoading: false, autoClose: true }) 
-      : toast.update(id, { render: "Something went wrong", type: "error", isLoading: false, autoClose: true });
+      : toast.update(id, { render: "Something went wrong", type: "error", isLoading: false, autoClose: true }); */
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -62,7 +53,7 @@ export default function Write() {
       categoryId
     };
     if (file) {
-      const id = toast.loading("Please wait...")
+      /* const id = toast.loading("Please wait...")
       const fileName = new Date().getTime() + file.name;
       const imageRef = ref(storage, `post_thumbnail/${fileName}`);
       uploadBytes(imageRef, file).then((snapshot) => {
@@ -71,7 +62,7 @@ export default function Write() {
           writeFunc(newPost, id);
         });
       });
-      
+       */
     }
   };
   return (
