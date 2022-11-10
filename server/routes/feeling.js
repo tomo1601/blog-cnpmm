@@ -78,4 +78,30 @@ router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
     res.status(200).json({ success: true, data: post })
 })
 
+router.get("/checkfeeling",verifyAccessToken, async(req,res)=>{
+    const post = await Post.findOne({_id:req.body.postId})
+
+    if(!post){
+        return res.status(400).json({success: false, error:"Post not exsist!!"})
+    }
+
+    let feeling = await Feeling.findOne({
+        postId: req.body.postId,
+        userId: req.user._id
+    })
+
+    if(feeling){
+        if(feeling.type == "like"){
+            return res.json({success: true, like:true})
+        }
+        else{
+            return res.json({success: true, dislike:true})
+        }
+    }  
+    else{
+        return res.status(400).json({success: false, error:"Post not exsist!!"})
+    }
+
+})
+
 module.exports = router
