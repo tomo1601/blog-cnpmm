@@ -85,7 +85,7 @@ router.delete('/:id',verifyAccessToken, async(req,res)=>{
     }
 
     await comment.remove();
-    res.json({ message:"Delete successfully!!" });
+    res.json({success: true,  message:"Delete successfully!!" });
 })
 
 //GET - get all comment by postId

@@ -34,7 +34,7 @@ router.delete("/delete-user/:id", verifyAccessToken, async (req, res) => {
     })
     try {
         await User.findByIdAndDelete({ _id: req.params.id })
-        res.send("Delete successful!")
+        res.json({success: true,  message:"Delete successfully!!" })
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
@@ -79,7 +79,7 @@ router.get("/get-all", verifyAccessToken, verifyAdminRole, async (req, res) => {
                 .status(400)
                 .json({ message: 'No user found!' })
         }
-        return res.json({ listUser: listUser })
+        return res.json({ success: true,listUser: listUser })
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
