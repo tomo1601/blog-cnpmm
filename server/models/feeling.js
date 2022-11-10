@@ -22,7 +22,7 @@ const FeelingSchema = new Schema(
     createDate:{
         type: Date,
         default: Date.now
-    },
+    }
   })
 
 module.exports = mongoose.model('feeling', FeelingSchema)
