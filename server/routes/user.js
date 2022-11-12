@@ -130,13 +130,14 @@ const removeTmp = (path) =>{
 
 //POST - create new user
 router.post("/newuser",verifyAccessToken, verifyAdminRole, async (req, res)=>{
-    const { username, password, email} = req.body
+    const { username, password, email, fullname} = req.body
     try {
         const hashedPassword = await argon2.hash(req.body.password)
 
         const newUser = new User({
             username,
             password: hashedPassword,
+            fullname,
             email,
             status: 'ACTIVE'
         })
@@ -151,8 +152,8 @@ router.post("/newuser",verifyAccessToken, verifyAdminRole, async (req, res)=>{
 
 })
 
-//PUT - change avatar
-router.put("/changeAvatar/:id", verifyAccessToken,upload.single('avatar'), async (req, res)=>{
+//PUT - change profile
+router.put("/changeProfile/:id", verifyAccessToken,upload.single('avatar'), async (req, res)=>{
     if(!req.params.id){
         return res.status(400).json({
             message: 'Please enter ID!!' 
@@ -185,6 +186,7 @@ router.put("/changeAvatar/:id", verifyAccessToken,upload.single('avatar'), async
         //remove file from local
         removeTmp(req.file.path)
 
+        user.fullname = req.body.fullname
         user.avatar = result.secure_url
         await user.save()
         const { password, __v, ...info } = user._doc

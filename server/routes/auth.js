@@ -59,6 +59,7 @@ router.post('/register', body('email').isEmail().normalizeEmail(), async (req, r
             username,
             password: hashedPassword,
             email,
+            fullname: username,
             avatar,
             status: 'ACTIVE'
         })
@@ -121,7 +122,7 @@ router.get("/logout", verifyAccessToken, async (req, res) => {
 //send mail to reset password
 router.get("/forgotpassword", async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.body.username})
+        const user = await User.findOne({ username: req.body.username, email: req.body.email})
         if (!user) {
             return res
                 .status(400)
@@ -135,7 +136,7 @@ router.get("/forgotpassword", async (req, res) => {
         await user.save()
 
         await sendMail(req.body.email,"Here is your link to reset password!!",text)
-        res.json({sucess: true})
+        res.json({success: true})
         
         
 
@@ -161,6 +162,20 @@ router.get("/resetpassword", async (req, res) => {
         await user.save()
         return res.json({ success: true, message:`Your new password is ${req.query.otp}` })
     
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+router.get("/sendmailotp", async (req, res) => {
+    try {
+        let otpCode = Math.floor(100000 + Math.random() * 900000).toString()
+        let text = `Here is OTP code to verify your email: ${otpCode}`
+
+        await sendMail(req.body.email,"Here is your link to reset password!!",text)
+        res.json({success: true, otp:otpCode})
 
     } catch (error) {
         console.log(error)
