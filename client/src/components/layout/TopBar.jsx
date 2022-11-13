@@ -9,7 +9,6 @@ export default function Topbar() {
     await logout()
   };
 
-  console.log(isAuthenticated)
   return (
     <div className="top">
       <div className="topLeft">

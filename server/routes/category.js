@@ -53,7 +53,7 @@ router.get("/get-all", async(req,res)=>{
                 .status(400)
                 .json({ message: 'No category found!' })
         }
-        return res.json({success: true, listCategory: listCategory })
+        return res.json({success:true,success: true, listCategory: listCategory })
     } catch (error) {
         console.log(error)
         res.status(500).json(error)

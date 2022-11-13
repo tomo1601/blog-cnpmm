@@ -1,13 +1,14 @@
 import { useState, useEffect } from "react";
-import {Image} from "@mui/icons-material";
-import {Button, Menu, MenuItem} from '@mui/material';
-import {toast} from 'react-toastify';
+import { Image } from "@mui/icons-material";
+import { Button, Menu, MenuItem } from '@mui/material';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Topbar from "../components/layout/TopBar";
 
 /* toast.configure(); */
 
 export default function Write() {
-  
+
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [categoryId, setCategoryId] = useState("");
@@ -30,14 +31,14 @@ export default function Write() {
     handleClose();
   }
 
-  useEffect(()=>{
-    const getCats = async ()=> {
+  useEffect(() => {
+    const getCats = async () => {
       /* const res = await CategoryService.getAll()
       setCats(res.data.data); */
-      
+
     };
     getCats();
-  },[]);
+  }, []);
 
   const writeFunc = async (e, id) => {
     /* const res = await PostService.uploadPost(e);
@@ -66,53 +67,59 @@ export default function Write() {
     }
   };
   return (
-    <div className="write">
-      {file && (
-        <img className="writeImg" src={URL.createObjectURL(file)} alt="" />
-      )}
-      <form className="writeForm" onSubmit={handleSubmit}>
-        <div className="writeFormGroup">
-          <label htmlFor="fileInput">
-            <Image className="writeIcon"/>
-          </label>
-          <input
-            type="file"
-            id="fileInput"
-            style={{ display: "none" }}
-            onChange={(e) => setFile(e.target.files[0])}
-          />
-          <span style={{marginLeft:"20px", fontSize:"30px", fontWeight:"600" }}>Title</span>
-          <input
-            type="text"
-            placeholder=""
-            className="writeInput titleInput"
-            autoFocus={true}
-            onChange={e=>setTitle(e.target.value)}
-          />
-          <div style={{width:"20vw"}}>
-            <span style={{fontSize:"30px", fontWeight:"600" }}>Category</span>
-            <Button style={{fontFamily:"Lora", textTransform:"none", color:"black", fontSize:"20px", fontWeight:"400"}} onClick={openMenu}>{cat}</Button>
-            <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
-              {cats.map((c)=>(
-              <MenuItem key={c._id} onClick={()=>handleCategory(c)}>
-                {c.title}
-              </MenuItem>
-              ))}
-            </Menu>
+    <>
+      <Topbar />
+      <div className="block-write">
+      <div className="write block-wrete-left">
+        {file && (
+          <img className="writeImg" src={URL.createObjectURL(file)} alt="" />
+        )}
+        <form className="writeForm" onSubmit={handleSubmit}>
+          <div className="writeFormGroup">
+            <label htmlFor="fileInput">
+              <Image className="writeIcon" />
+            </label>
+            <input
+              type="file"
+              id="fileInput"
+              style={{ display: "none" }}
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+            <span style={{ marginLeft: "20px", fontSize: "30px", fontWeight: "600" }}>Title</span>
+            <input
+              type="text"
+              placeholder=""
+              className="writeInput titleInput"
+              autoFocus={true}
+              onChange={e => setTitle(e.target.value)}
+            />
+            <div style={{ width: "20vw" }}>
+              <span style={{ fontSize: "30px", fontWeight: "600" }}>Category</span>
+              <Button style={{ fontFamily: "Lora", textTransform: "none", color: "black", fontSize: "20px", fontWeight: "400" }} onClick={openMenu}>{cat}</Button>
+              <Menu anchorEl={anchorEl} keepMounted open={Boolean(anchorEl)} onClose={handleClose}>
+                {cats.map((c) => (
+                  <MenuItem key={c._id} onClick={() => handleCategory(c)}>
+                    {c.title}
+                  </MenuItem>
+                ))}
+              </Menu>
+            </div>
+            <button className="writeSubmit" type="submit" onClick={() => { !file && alert("Missing image") }}>
+              Publish
+            </button>
           </div>
-          <button className="writeSubmit" type="submit"  onClick={()=>{!file && alert("Missing image")}}>
-            Publish
-          </button>
-        </div>
-        <div className="writeFormGroup">
-          <textarea
-            placeholder="Tell us your story..."
-            type="text"
-            className="writeInput writeText"
-            onChange={e=>setDescription(e.target.value)}
-          ></textarea>
-        </div>
-      </form>
-    </div>
+          <div className="writeFormGroup">
+            <textarea
+              placeholder="Tell us your story..."
+              type="text"
+              className="writeInput writeText"
+              onChange={e => setDescription(e.target.value)}
+            ></textarea>
+          </div>
+        </form>
+      </div>
+      <div className="write-review"> review</div>
+      </div>
+    </>
   );
 }
