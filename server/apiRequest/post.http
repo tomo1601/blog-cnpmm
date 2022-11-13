@@ -28,8 +28,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4M
 GET http://localhost:5000/api/post/get-all
 
 ###
-GET http://localhost:5000/api/post/632bc231df437c9ec64f5d57
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI5ZTFmMjM2MDhhM2E4MGM5NmFlYTMiLCJpYXQiOjE2NjQ3ODI0MDYsImV4cCI6MTY2NTA0MTYwNn0.bf8AZOLzMEqnt6AVzSavXdeVwNwaht04_aLgbEmMgEg
+GET http://localhost:5000/api/post/6334f7c3392aefeca1ca0a65
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2Njc5OTAzMzcsImV4cCI6MTY2ODI0OTUzN30.i6wJDIKv6BrXJoxw4rxXVaXYfWXwbMAXDCyQ8UHl0OA
 
 ###
 GET http://localhost:5000/api/post?userId=632805974c49bcc495054d0f
