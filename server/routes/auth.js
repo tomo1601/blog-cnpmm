@@ -9,6 +9,19 @@ const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_servi
 const sendMail = require('../middlewares/mail_service')
 require('dotenv').config()
 
+
+router.get("/", verifyAccessToken, async (req, res) => {
+    try {
+        const user = await User.findById(req.userId).select('-password')
+        if(!user) return res.status(400).json({success: false, message:'user not found'}) 
+        res.json({success: true, user})
+    } catch(error) {
+        console.log(error)
+        res.status(500).json({success:false, message: 'Internal server error'})
+    }
+
+});
+
 //Post: /register
 router.post('/register', body('email').isEmail().normalizeEmail(), async (req, res) => {
 

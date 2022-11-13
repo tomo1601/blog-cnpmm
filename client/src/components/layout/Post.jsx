@@ -29,6 +29,7 @@ export default function Post({ post }) {
 
   return (
     <div className="post">
+      <Link to={`/post/${post._id}`} className="link" onClick={() => handleView(post._id)}>
       {post.photo &&
         (<img
           className="postImg"
@@ -36,6 +37,7 @@ export default function Post({ post }) {
           alt=""
         />)
       }
+      </Link>
       <div className="postInfo">
         <div className="postCats">
           {/* <Link to={`/?cat=${c.name}`} className="link" key={c._id}>

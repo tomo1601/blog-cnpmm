@@ -25,7 +25,7 @@ function App() {
             <Route exact path='/about' component={About}/>
             <Route exact path='/post/:id' component={PostDetail}/>
             <Route exact path='/user/:id' component={Profile}/>
-            {/* <Route exact path='/write' component={Write}/> */}
+            <Route exact path='/write' component={Write}/>
           </Switch>
         </Router>
       </AuthContextProvider>
