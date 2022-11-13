@@ -13,7 +13,7 @@ GET http://localhost:5000/api/user/632b02ad070d6e22ac8cb371
 ###
 GET http://localhost:5000/api/user/get-all
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjQyNDA5OTksImV4cCI6MTY2NDUwMDE5OX0.SYQL2MA3_RbCzv7HaVqB6iBh_2aw8dys_NwY_dJ_1zU
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjgwNjExMzQsImV4cCI6MTY2ODMyMDMzNH0.pcSlFxcp84zdE57SvIu_LPh2WzGPrhdylMZ2T6vwYw8
 
 
 ###
@@ -27,5 +27,13 @@ Content-Type: application/json
 
 {
     "username":"username3",
+    "email":"ngoanh91thangnhat@gmail.com"
+}
+
+###
+GET http://localhost:5000/api/auth/sendmailotp
+Content-Type: application/json
+
+{
     "email":"ngoanh91thangnhat@gmail.com"
 }

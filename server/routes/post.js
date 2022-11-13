@@ -13,6 +13,7 @@ const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_servi
 const cloudinary = require('cloudinary').v2
 require("dotenv").config()
 const fs = require('fs')
+const { getSystemErrorMap } = require('util')
 
 cloudinary.config({ 
     cloud_name: process.env.CLOUD_NAME,
@@ -170,7 +171,7 @@ router.delete('/delete-post', verifyAccessToken, async(req,res)=>{
         await Post.deleteMany({'_id': { $in: list_id}})
 
         // await post.remove();
-        return res.json({ message:"Delete successfully!!" });
+        return res.json({ success: true, message:"Delete successfully!!" });
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
@@ -182,14 +183,14 @@ router.delete('/delete-post', verifyAccessToken, async(req,res)=>{
 router.get('/get-all',async(req,res)=>{
     try {
         const listPost = await Post.find().sort({createDate:-1})
-        .populate("userId",["username","avatar"])
+        .populate("userId",["fullname","avatar"])
         .populate("comments")
         if(!listPost){
             return res
                 .status(400)
                 .json({ message: 'No Post found!' })
         }
-        res.json({success:true, listPost: listPost })
+        res.json({success:true,success: true, listPost: listPost })
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
@@ -197,7 +198,7 @@ router.get('/get-all',async(req,res)=>{
 })
 
 //GET - get post by id
-router.get("/:id",verifyAccessToken,async(req,res)=>{
+router.get("/:id",async(req,res)=>{
     if(!req.params.id){
         return res.status(400).json({
             message: 'Please enter POST ID!!' 
@@ -205,7 +206,7 @@ router.get("/:id",verifyAccessToken,async(req,res)=>{
     }
     try {
         const post = await Post.findById(req.params.id)
-        .populate("userId",["username","avatar"])
+        .populate("userId",["fullname","avatar"])
         .populate("comments")
         if(!post){
             return res
@@ -219,21 +220,55 @@ router.get("/:id",verifyAccessToken,async(req,res)=>{
     }
 })
 
-//GET - get post by userid - ?userId=
+//GET - get post by categoryid - ?categoryId=
 router.get("/", async(req,res)=>{
-    if(!req.query.userId){
+    if(!req.query){
+        return res.status(400).json({
+            message: 'Please enter USER OR CATEGORY ID!!' 
+       })
+    }
+    
+    let post
+    try{
+        if(req.query.categoryId){
+            post = await Post.find({categoryId: req.query.categoryId})
+            .sort({createDate:-1}).populate("userId",["fullname","avatar"]).populate("comments")
+        }
+        else if(req.query.userId){
+            post = await Post.find({userId: req.query.userId})
+            .sort({createDate:-1}).populate("userId",["fullname","avatar"]).populate("comments")
+        }
+        
+
+        if(!post){
+            return res
+                .status(400)
+                .json({ message: 'Invalid ID!!' })
+        }
+
+        res.json({ success: true, post })
+
+    }catch(error){
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+//GET - get post by userid - ?userId=
+router.get("/get/:userId", async(req,res)=>{
+    if(!req.params.userId){
         return res.status(400).json({
             message: 'Please enter USER ID!!' 
        })
     }
 
     try {
-        const post = await Post.find({userId: req.query.userId})
-        .sort({createDate:-1}).populate("userId",["username","avatar"]).populate("comments")
+        const post = await Post.find({userId: req.params.userId})
+        .sort({createDate:-1}).populate("userId",["fullname","avatar"]).populate("comments")
         if(!post){
             return res
                 .status(400)
-                .json({ message: 'Invalid ID!!' })
+                .json({ message: 'Invalid USER ID!!' })
         }
 
         res.json({ success: true, post })
