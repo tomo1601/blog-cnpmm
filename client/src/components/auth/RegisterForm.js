@@ -24,18 +24,19 @@ const UserLoginForm = () => {
         ...RegisterForm, [event.target.name]: event.target.value
     })
 
-    const [Otp, setOtp] = useState({
-        waitingOtp: false,
-        OtpRes:''
-    })
+    const [otpState, setOtpState] = useState(false)
+
+    const [Otp, setOtp] = useState('')
 
     const {OtpRes} = Otp
-    const onChangeOtp = event => setOtp({
-        ...Otp, OtpRes: event.target.value
-    })
+    const onChangeOtp = event => setOtp(event.target.value)
+
+    const onClickRegister = event => {
+
+    }
 
     let acceptOtp
-    if (!Otp.waitingOtp) acceptOtp = (
+    if (otpState) acceptOtp = (
         <>
             <Button className='mt-2' variant='primary' type='submit'>Register</Button>
         </>
