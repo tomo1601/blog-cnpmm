@@ -68,7 +68,7 @@ export default function Write() {
   };
   return (
     <>
-      <Topbar />
+      <Topbar/>
       <div className="block-write">
       <div className="write block-wrete-left">
         {file && (
