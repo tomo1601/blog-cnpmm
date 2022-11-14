@@ -35,5 +35,6 @@ GET http://localhost:5000/api/auth/sendmailotp
 Content-Type: application/json
 
 {
-    "email":"ngoanh91thangnhat@gmail.com"
+    "username":"username3",
+    "email":"quangssoss@gmail.com"
 }

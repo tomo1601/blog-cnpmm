@@ -23,7 +23,9 @@ const sendMail = async(to,subject,text)=>{
         transporter.sendMail(mailOptions, (err,info)=>{
             if (err) {
                 console.log(err)
+                return
             }
+            transporter.close();
         })
 
     } catch (error) {

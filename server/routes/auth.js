@@ -13,11 +13,11 @@ require('dotenv').config()
 router.get("/", verifyAccessToken, async (req, res) => {
     try {
         const user = await User.findById(req.userId).select('-password')
-        if(!user) return res.status(400).json({success: false, message:'user not found'}) 
-        res.json({success: true, user})
-    } catch(error) {
+        if (!user) return res.status(400).json({ success: false, message: 'user not found' })
+        res.json({ success: true, user })
+    } catch (error) {
         console.log(error)
-        res.status(500).json({success:false, message: 'Internal server error'})
+        res.status(500).json({ success: false, message: 'Internal server error' })
     }
 
 });
@@ -102,13 +102,13 @@ router.post('/login', async (req, res) => {
                 .status(400)
                 .json({ success: false, message: 'Incorrect username!' })
         }
-        
-        if(user.status === 'NOT ACTIVE'){
+
+        if (user.status === 'NOT ACTIVE') {
             return res
                 .status(400)
                 .json({ success: false, message: 'This user is blocked!' })
         }
-        
+
         const validPassword = await argon2.verify(user.password, req.body.password)
         if (!validPassword) {
             return res
@@ -135,7 +135,7 @@ router.get("/logout", verifyAccessToken, async (req, res) => {
 //send mail to reset password
 router.get("/forgotpassword", async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.body.username, email: req.body.email})
+        const user = await User.findOne({ username: req.body.username, email: req.body.email })
         if (!user) {
             return res
                 .status(400)
@@ -148,10 +148,10 @@ router.get("/forgotpassword", async (req, res) => {
         user.otp = otpCode
         await user.save()
 
-        await sendMail(req.body.email,"Here is your link to reset password!!",text)
-        res.json({success: true})
-        
-        
+        await sendMail(req.body.email, "Here is your link to reset password!!", text)
+        res.json({ success: true })
+
+
 
     } catch (error) {
         console.log(error)
@@ -162,19 +162,19 @@ router.get("/forgotpassword", async (req, res) => {
 //reset password
 router.get("/resetpassword", async (req, res) => {
     try {
-        
+
         const user = await User.findById({ _id: req.query.id })
 
-        if(!user.otp === req.query.otp){
-            return res.status(400).json({message:"Invalid OTP"})
+        if (!user.otp === req.query.otp) {
+            return res.status(400).json({ message: "Invalid OTP" })
         }
 
         const hashedPassword = await argon2.hash(req.query.otp)
         user.password = hashedPassword
         user.otp = ''
         await user.save()
-        return res.json({ success: true, message:`Your new password is ${req.query.otp}` })
-    
+        return res.json({ success: true, message: `Your new password is ${req.query.otp}` })
+
 
     } catch (error) {
         console.log(error)
@@ -183,13 +183,15 @@ router.get("/resetpassword", async (req, res) => {
 })
 
 router.get("/sendmailotp", async (req, res) => {
+    console.log(req.body)
     try {
         let otpCode = Math.floor(100000 + Math.random() * 900000).toString()
         let text = `Here is OTP code to verify your email: ${otpCode}`
-
-        await sendMail(req.body.email,"Here is your link to reset password!!",text)
-        res.json({success: true, otp:otpCode})
-
+        if (req.body.email !== undefined) {
+            await sendMail(req.body.email, "Here is OTP code to verify your email!", text)
+            res.json({ success: true, otp: otpCode })
+        }
+        else {res.json({ success: false, message: 'request body undefined' })}
     } catch (error) {
         console.log(error)
         res.status(500).json(error)
