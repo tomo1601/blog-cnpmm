@@ -143,15 +143,17 @@ router.get("/forgotpassword", async (req, res) => {
         }
 
         let otpCode = Math.floor(100000 + Math.random() * 900000).toString()
-        let text = `Click here: http://localhost:5000/api/auth/resetpassword?otp=${otpCode}&id=${user._id}`
+        //let text = `Click here: http://localhost:5000/api/auth/resetpassword?otp=${otpCode}&id=${user._id}`
 
-        user.otp = otpCode
+        let text = `User: ${req.body.username} <br>New password: ${otpCode}`
+        const hashedPassword = await argon2.hash(otpCode)
+        user.password = hashedPassword
+        //user.otp = otpCode
         await user.save()
 
-        await sendMail(req.body.email, "Here is your link to reset password!!", text)
-        res.json({ success: true })
-
-
+        await sendMail(req.body.email, "Here is your new password!!", text)        
+        //await sendMail(req.body.email, "Here is your link to reset password!!", text)
+        res.json({ success: true})
 
     } catch (error) {
         console.log(error)
@@ -173,6 +175,7 @@ router.get("/resetpassword", async (req, res) => {
         user.password = hashedPassword
         user.otp = ''
         await user.save()
+        //return res.redirect()
         return res.json({ success: true, message: `Your new password is ${req.query.otp}` })
 
 
