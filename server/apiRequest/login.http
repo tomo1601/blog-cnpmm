@@ -31,10 +31,9 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:5000/api/auth/sendmailotp
+POST http://localhost:5000/api/auth/sendmailotp
 Content-Type: application/json
 
 {
-    "username":"username3",
     "email":"quangssoss@gmail.com"
 }

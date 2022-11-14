@@ -9,8 +9,9 @@ import AlertMessage from '../layout/AlertMessage'
 const UserLoginForm = () => {
 
     //context
-    const { registerUser } = useContext(AuthContext)
+    const { registerUser, mailAuth } = useContext(AuthContext)
     const [authloading, setAuthLoading] = useState(false);
+    const [alert, setAlert] = useState(null)
     //local state
     const [RegisterForm, setRegisterForm] = useState({
         email: '',
@@ -18,7 +19,6 @@ const UserLoginForm = () => {
         username: '',
         confirmpassword: ''
     })
-
     const { email, password, username, confirmpassword } = RegisterForm
     const onChangeRegisterForm = event => setRegisterForm({
         ...RegisterForm, [event.target.name]: event.target.value
@@ -27,18 +27,29 @@ const UserLoginForm = () => {
     const [otpState, setOtpState] = useState(false)
 
     const [Otp, setOtp] = useState('')
+    const [OtpResponse, setOtpResponse] = useState('')
 
     const {OtpRes} = Otp
     const onChangeOtp = event => setOtp(event.target.value)
 
-    const onClickRegister = event => {
-
+    const onClickRegister = async event => {
+        event.preventDefault()
+        const res = await mailAuth(RegisterForm)
+        console.log(res)
+        if(res.success){
+            setOtpResponse(res.otp)
+            setOtpState(true)
+        }
+        else {
+            setAlert({ type: 'danger', message: 'Sent OTP code fail!' })
+            setTimeout(() => setAlert(null), 5000)
+        }
     }
 
     let acceptOtp
-    if (otpState) acceptOtp = (
+    if (!otpState) acceptOtp = (
         <>
-            <Button className='mt-2' variant='primary' type='submit'>Register</Button>
+            <Button className='mt-2' variant='primary' onClick={onClickRegister}>Register</Button>
         </>
     )
     else acceptOtp = (
@@ -47,30 +58,33 @@ const UserLoginForm = () => {
                 <Form.Label>OTP</Form.Label>
                 <Form.Control
                     type='text'
-                    placeholder=''
+                    placeholder='use otp code was send into your email!'
                     name='otp'
                     value={OtpRes}
                     required
                     onChange={onChangeOtp}
                 />
             </Form.Group>
-            <Button className='mt-2' variant='primary' type='submit'>Register</Button>
+            <Button disabled={authloading} className='mt-2' variant='primary' type='submit'>Register</Button>
         </>
     )
-    const [alert, setAlert] = useState(null)
 
 
     const userRegister = async event => {
-        setAuthLoading(true);
         event.preventDefault()
         if (confirmpassword !== password) {
             setAlert({ type: 'danger', message: 'You must re-enter the correct confirmation password' })
+            setTimeout(() => setAlert(null), 5000)
+        }
+        else if(OtpResponse !== Otp){
+            setAlert({ type: 'danger', message: 'OTP code invalid' })
             setTimeout(() => setAlert(null), 5000)
         }
         else {
             try {
                 const userResgisterData = await registerUser(RegisterForm)
                 if (userResgisterData.success) {
+                    setAuthLoading(true);
                     setAlert({ type: 'success', message: 'Account created successfully!' })
                     setTimeout(() => setAlert(null), 5000)
                 }
