@@ -909,5 +909,6 @@ cursor: pointer;
 
 .write-review {
   float: right;
+  margin-top: -385px;
   width: 30%;
 }
