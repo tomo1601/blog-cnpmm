@@ -182,8 +182,7 @@ router.get("/resetpassword", async (req, res) => {
     }
 })
 
-router.get("/sendmailotp", async (req, res) => {
-    console.log(req.body)
+router.post("/sendmailotp", async (req, res) => {
     try {
         let otpCode = Math.floor(100000 + Math.random() * 900000).toString()
         let text = `Here is OTP code to verify your email: ${otpCode}`
