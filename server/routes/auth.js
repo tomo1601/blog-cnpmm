@@ -12,7 +12,7 @@ require('dotenv').config()
 
 router.get("/", verifyAccessToken, async (req, res) => {
     try {
-        const user = await User.findById(req.userId).select('-password')
+        const user = await User.findById(req.id).select('-password')
         if (!user) return res.status(400).json({ success: false, message: 'user not found' })
         res.json({ success: true, user })
     } catch (error) {

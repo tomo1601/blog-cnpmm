@@ -1,7 +1,8 @@
-import { createContext, useReducer, useEffect, useState } from "react";
+import { createContext, useReducer } from "react";
 import axios from "axios";
 import { AuthReducer } from "../reducers/AuthReducer";
 import { apiUrl, LOCAL_STORAGE_TOKEN_NAME, USER_ROLE } from "./constants";
+import { useEffect } from "react"
 
 export const AuthContext = createContext();
 
@@ -14,24 +15,62 @@ const AuthContextProvider = ({ children }) => {
     isAdmin: false,
   });
 
-  const [showToast, setShowToast] = useState({
-    show: false,
-    message: "",
-    type: null,
-  });
+  // auth user
+  const loadUser = async () => {
+    try {
+      const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME];
+      if (recentToken !== undefined) {
+        const response = await axios.get(`${apiUrl}/auth/`, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${recentToken}`,
+          },
+        });
 
+        if (response.data.success) {
+          dispatch({
+            type: "SET_AUTH",
+            payload: {
+              isAuthenticated: true,
+              user: response.data.user,
+              isUser: false,
+              isAdmin: false,
+            },
+
+          });
+        } else throw new Error("Unauthorized !");
+      }
+    } catch (error) {
+      /* localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+      localStorage.removeItem(USER_ROLE); */
+      dispatch({
+        type: "SET_AUTH",
+        payload: {
+          isAuthenticated: false,
+          user: null,
+          isUser: false,
+          isAdmin: false,
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    loadUser();
+  }, []);
   // Login user
   const loginUser = async (userForm) => {
     try {
       const response = await axios.post(`${apiUrl}/auth/login`, userForm);
       if (response.data.success) {
         localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.token);
-        localStorage.setItem(USER_ROLE, "user");
+        localStorage.setItem(USER_ROLE, response.data.info.role);
+        console.log(response)
         dispatch({
           type: "SET_AUTH",
           payload: {
             isAuthenticated: true,
-            user: response.data,
+            user: response.data.info,
             isUser: true,
             isAdmin: false,
           },
@@ -50,12 +89,12 @@ const AuthContextProvider = ({ children }) => {
       const response = await axios.post(`${apiUrl}/auth/login`, userForm);
       if (response.data.success) {
         localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.token);
-        localStorage.setItem(USER_ROLE, "admin");
+        localStorage.setItem(USER_ROLE, response.data.info.role);
         dispatch({
           type: "SET_AUTH",
           payload: {
             isAuthenticated: true,
-            user: response.data,
+            user: response.data.info,
             isUser: false,
             isAdmin: true,
           },
@@ -108,18 +147,47 @@ const AuthContextProvider = ({ children }) => {
   // authMail
   const mailAuth = async (email) => {
     try {
-      console.log(email)
       const response = await axios.post(`${apiUrl}/auth/sendmailotp`, email);
-      return response.data; 
+      return response.data;
     } catch (error) {
       if (error.response.data) return error.response.data;
       else return { success: false, message: error.message };
     }
   };
 
+  //update profile
+  const updatePofile = async (profile) => {
+    try {
+
+      const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME];
+      const response = await axios.put(`${apiUrl}/user/changeProfile/${profile._id}`, profile,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${recentToken}`
+          },
+        });
+      if (response.data.success) {
+        dispatch({
+          type: "SET_AUTH",
+          payload: {
+            isAuthenticated: true,
+            user: response.data,
+            isUser: true,
+            isAdmin: false,
+          },
+        });
+        return response.data;
+      }
+    }
+    catch (error) {
+      if (error.response.data) return error.response.data;
+      else return { success: false, message: error.message };
+    }
+  }
   const authContextData = {
-    loginUser, registerUser, loginAdmin, logout,getUserById, authState,
-    mailAuth,
+    loginUser, registerUser, loginAdmin, logout, getUserById, authState,
+    mailAuth, updatePofile,
 
   };
 

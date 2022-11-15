@@ -1,122 +1,134 @@
-import "./settings.css";
-import {PhotoCamera, Edit} from "@mui/icons-material";
+import { PhotoCamera, Edit } from "@mui/icons-material";
 import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import {toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL,
-} from "firebase/storage";
-import { storage } from "../../firebase";
-import AuthenticationService from "../../services/AuthenticationService";
+import { AuthContext } from "../contexts/AuthContext";
+import { useToast } from '../contexts/Toast';
 
-toast.configure();
+const Settings = () => {
 
-export default function Settings() {
-  const [file, setFile] = useState(null);
-  const [userName, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [updateMode, setUpdateMode] = useState(false);
-  const { user, token, dispatch } = useContext(AuthContext);
- 
-  const updateFunc = async (e) =>{
-    let success = false;
-    const res = await AuthenticationService.updateUserDetails(e);
-    if(res.data.success) {
-      success = true;
-      const user = await AuthenticationService.me(token);
-      
-      dispatch({type: 'GET_CURRENT_USER', payload: user.data.data})
-    }
-    return success;
-  }
-  const handleSubmit = async (e) => {
-    const updatedUser = {
-      userName: userName ? userName : user.userName,
-      email: email ? email : user.email,
+  const { authState: { user }, updatePofile } = useContext(AuthContext);
+  const { error, success } = useToast();
+  const [userInfo, setUserInfo] = useState({
+    _id: user._id,
+    email: user.email,
+    username: user ? user.username : '',
+    fullname: user ? user.fullname : '',
+    avatar: '',
+  });
+
+  const { email, username, fullname, avatar } = userInfo
+
+  const onChangeUserInfo = (event) =>
+    setUserInfo({
+      ...userInfo, [event.target.name]: event.target.value,
+    });
+
+  const fileToBase64 = (file, cb) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function () {
+      cb(null, reader.result);
     };
-    e.preventDefault();
-    if (file) {
-      const id = toast.loading("Please wait...")
-      const fileName = new Date().getTime() + file.name;
-      const imageRef = ref(storage, `user_photoUrl/${fileName}`);
-      uploadBytes(imageRef, file).then((snapshot) => {
-        getDownloadURL(snapshot.ref).then((url) => {
-          updatedUser.photoUrl = url;
-          const success = updateFunc(updatedUser)
-          if(success) {
-            toast.update(id, { render: "All is good", type: "success", isLoading: false, autoClose: true });
-          } else {
-            toast.update(id, { render: "Something went wrong", type: "error", isLoading: false, autoClose: true });
-          }
-          
-        });
-      });
-    } else {
-      updatedUser.photoUrl = user.photoUrl;
-      const success = updateFunc(updatedUser)
-      if(success) {
-        toast.success("All is good");
-      } else {
-        toast.error("Something went wrong")
-      }
-      
+    reader.onerror = function (error) {
+      cb(error, null);
+    };
+  };
+  const onUploadFileChange = ({ target }) => {
+    if (target.files < 1 || !target.validity.valid) {
+      return;
     }
-    setUpdateMode(false);
+
+    const file = target.files[0];
+    fileToBase64(file, (err, result) => {
+      if (result) {
+        setUserInfo({
+          ...userInfo,
+          avatar: file,
+        });
+      }
+    });
+    var preview = document.getElementById("avt-review");
+    var reader = new FileReader();
+    reader.onloadend = function () {
+      preview.src = reader.result;
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      preview.src = "";
+    }
+
+  };
+  const onSubmitUpdateProfile = async (event) => {
+    event.preventDefault();
+    try {
+      const profileUpdate = await updatePofile( userInfo);
+      if (profileUpdate.success) {
+        success('Updated infomation successfully!')
+      } else {
+        error('Updated infomation fail!')
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <div className="settings">
       <div className="settingsWrapper">
-        <form className="settingsForm" onSubmit={handleSubmit}>
+        <form className="settingsForm" onSubmit={onSubmitUpdateProfile}>
           <span className="title">Profile Picture</span>
           <div className="settingsPP">
             <img
-              src={file ? URL.createObjectURL(file) : user.photoUrl}
+              id="avt-review"
+              src={user.avatar}
               alt=""
             />
             <label htmlFor="fileInput">
               <div className="settingsPPIcon">
-                <PhotoCamera style={{color: "black"}}/>{" "}
+                <PhotoCamera style={{ color: "black" }} />{" "}
               </div>
             </label>
             <input
               type="file"
               id="fileInput"
               style={{ display: "none" }}
-              onChange={(e) => setFile(e.target.files[0])}
+              onChange={onUploadFileChange}
             />
           </div>
-          <span className="title" style={{cursor: "pointer"}} onClick={() => setUpdateMode(true)}>
-            <Edit className="singlePostIcon"/>{" "}
+          <span className="title" style={{ cursor: "pointer" }} >
+            <Edit className="singlePostIcon" />{" "}
             <span>Sửa hồ sơ</span>
           </span>
-          
+          <label>Full Name</label>
+          <input
+            type="text"
+            name='fullname'
+            value={fullname}
+            onChange={onChangeUserInfo}
+          />
           <label>Username</label>
           <input
             type="text"
-            defaultValue={user.userName}
-            disabled={!updateMode}
-            onChange={(e) => setUserName(e.target.value)}
+            name='username'
+            defaultValue={user.username}
+            disabled={true}
           />
           <label>Email</label>
           <input
             type="email"
+            name='email'
             defaultValue={user.email}
-            disabled={!updateMode}
-            onChange={(e) => setEmail(e.target.value)}
+            disabled={true}
           />
           <div className="settingButton">
-            {updateMode && (
-              <button className="settingsSubmit" type="submit">
-                Update
-              </button>
-            )}
-          </div>   
+            <button className="settingsSubmit" type="submit" /* onClick={updateFunc} */>
+              Update
+            </button>
+          </div>
         </form>
       </div>
     </div>
   );
 }
+
+export default Settings
