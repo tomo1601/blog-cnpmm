@@ -88,9 +88,9 @@ const UserLoginForm = () => {
     return (
         <>
             {/*Header,logo*/}
-            <div class="utew-login-top-header">
-                <div class="topLeft">
-                    <div class="topLeftTitle">
+            <div className="utew-login-top-header">
+                <div className="topLeft">
+                    <div className="topLeftTitle">
                         <Link className='homelink' to="/">Life Stories</Link>
                     </div>
                 </div>

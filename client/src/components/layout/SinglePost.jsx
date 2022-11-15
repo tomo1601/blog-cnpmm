@@ -52,7 +52,6 @@ export default function SinglePost() {
       }
 
       getCategory()
-      console.log(res)
       setPost(res.post);
       setTitle(res.post.title);
       setDescription(res.post.desc);

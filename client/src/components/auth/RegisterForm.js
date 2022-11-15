@@ -35,7 +35,6 @@ const UserLoginForm = () => {
     const onClickRegister = async event => {
         event.preventDefault()
         const res = await mailAuth(RegisterForm)
-        console.log(res)
         if(res.success){
             setOtpResponse(res.otp)
             setOtpState(true)
