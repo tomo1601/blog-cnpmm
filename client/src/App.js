@@ -10,26 +10,33 @@ import About from './views/About'
 import PostDetail from './components/layout/PostDetail'
 import Profile from './components/layout/Profile'
 import Write from './views/Write'
+import Settings from './views/Settings'
+import ProfilePage from './views/ProfilePage'
+import { ToastProvider } from './contexts/ToastProvider';
 
 function App() {
   return (
-    <PostContextProvider>
-      <AuthContextProvider>
-        <Router>
-          <Switch>
-            <Route exact path='/' component={Landing} />
-            <Route exact path='/login' render={props => <Auth {...props} authRoute='login' />} />
-            <Route exact path='/register' render={props => <Auth {...props} authRoute='register' />} />
-            <Route exact path='/admin' component={AdminLoginForm} />
-            <Route exact path='/homepage' component={Homepage} />
-            <Route exact path='/about' component={About}/>
-            <Route exact path='/post/:id' component={PostDetail}/>
-            <Route exact path='/user/:id' component={Profile}/>
-            <Route exact path='/write' component={Write}/>
-          </Switch>
-        </Router>
-      </AuthContextProvider>
-    </PostContextProvider>
+    <AuthContextProvider>
+      <PostContextProvider>
+        <ToastProvider>
+          <Router>
+            <Switch>
+              <Route exact path='/' component={Landing} />
+              <Route exact path='/login' render={props => <Auth {...props} authRoute='login' />} />
+              <Route exact path='/register' render={props => <Auth {...props} authRoute='register' />} />
+              <Route exact path='/admin' component={AdminLoginForm} />
+              <Route exact path='/homepage' component={Homepage} />
+              <Route exact path='/about' component={About} />
+              <Route exact path='/post/:id' component={PostDetail} />
+              <Route exact path='/user/:id' component={Profile} />
+              <Route exact path='/write' component={Write} />
+              <Route exact path='/settings' component={Settings} />
+              <Route exact path='/profile' component={ProfilePage} />
+            </Switch>
+          </Router>
+        </ToastProvider>
+      </PostContextProvider>
+    </AuthContextProvider>
   );
 }
 

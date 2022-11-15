@@ -42,10 +42,10 @@ export default function Topbar() {
       </div>
       <div className="topRight">
         {user ? (
-          <Link className="link" to="/settings">
+          <Link className="link" to="/profile">
             <img
               className="topImg"
-              src={user.info.avatar}
+              src={user.avatar}
               alt=""
             />
           </Link>

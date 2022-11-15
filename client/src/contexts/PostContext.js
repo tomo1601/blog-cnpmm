@@ -63,8 +63,22 @@ const PostContextProvider = ({ children }) => {
             else return { success: false, message: error.message };
         }
     }
+
+    // get post by user ID
+    const getPostByUserId = async (id) =>{
+        try {
+            const response = await axios.get(`${apiUrl}/post/?userId=${id}`);
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
+    // export
     const authContextData = {
-        getAllPosts, getPostById,
+        getAllPosts, getPostById, getPostByUserId, 
     };
 
     //return
