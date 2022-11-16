@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext } from "react";
 import { Image } from "@mui/icons-material";
-import { Button, Menu, MenuItem } from '@mui/material';
 import { useToast } from '../contexts/Toast';
 import 'react-toastify/dist/ReactToastify.css';
 import Topbar from "../components/layout/TopBar";
@@ -8,13 +7,6 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { AuthContext } from "../contexts/AuthContext";
 import { PostContext } from "../contexts/PostContext";
-import { FacebookShareButton } from "react-share";
-import TextareaAutosize from 'react-textarea-autosize';
-import { Fab } from '@mui/material';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
-import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
-import Badge from '@mui/material/Badge';
 import { Link } from "react-router-dom";
 import axios from "axios"
 import { apiUrl } from "../contexts/constants"
@@ -200,7 +192,7 @@ const Write = () => {
                 <span className="singlePostAuthor">
                   Author:{" "}
                   <Link to={`/user/${user._id}`} className="link">
-                    <b>{user.username}</b>
+                    <b>{user.fullname}</b>
                   </Link>
                 </span>
                 <span className="singlePostCats">

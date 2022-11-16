@@ -102,7 +102,7 @@ router.post('/newpost',verifyAccessToken, uploadFile.single('photo'),async(req,r
 })
 
 //PUT - Edit post
-router.put('/:id', verifyAccessToken,uploadFile.single('thum'), async(req,res)=>{
+router.put('/:id', verifyAccessToken,uploadFile.single('photo'), async(req,res)=>{
 
     if(!req.params.id){
         return res.status(400).json({
@@ -152,6 +152,10 @@ router.put('/:id', verifyAccessToken,uploadFile.single('thum'), async(req,res)=>
 
 //delete
 router.delete('/delete-post', verifyAccessToken, async(req,res)=>{
+    const {user, id} = req.body
+    console.log(user)
+    console.log(id)
+    console.log(req.body)
     try {
         // let post = await Post.findOne({ userId: req.user._id, _id: req.params.id }) //userId de kiem tra co phai nguoi viet bai
         //                                                                             //muon xoa bai viet hay khong
