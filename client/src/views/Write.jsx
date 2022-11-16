@@ -116,7 +116,6 @@ const Write = () => {
 
   return (
     <>
-      <Topbar />
       <Row>
         <Col style={{ width: '60%' }}>
           <div className="write block-wrete-left" style={{ witdh: '90%', paddingBottom: '100px' }}>

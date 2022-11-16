@@ -722,7 +722,7 @@ button.post-button.btn:active {
 }
 
 .settingsForm>label {
-  font-size: 20px;
+  font-size: 16px;
   margin-top: 20px;
   margin-left: 51px;
 }
@@ -954,4 +954,58 @@ button.post-button.btn:active {
   padding-right: 0;
   display: flex;
   flex-direction: column;
+}
+
+.utew .footer {
+  padding-bottom: 1rem;
+}
+
+.footer {
+  padding-left: 100px;
+  padding-right: 100px;
+}
+
+.utew .footer {
+  padding: 20px 100px;
+  -webkit-text-size-adjust: none;
+  -moz-text-size-adjust: none;
+  text-size-adjust: none;
+  background-color: #001744;
+  box-shadow: inset 0 1px 0 0 rgb(0 90 255 / 3%);
+  padding-top: 40px;
+}
+
+.animated {
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+}
+
+.utew .footer__container {
+  flex-grow: 1;
+  margin: 0 auto;
+  position: relative;
+  width: auto;
+  max-width: 1920px;
+}
+
+.utew .footer .columns:not(:last-child) {
+  margin-bottom: calc(1.5rem - 0.75rem);
+}
+
+.utew .footer .columns:not(.is-desktop) {
+  display: flex;
+}
+
+.columns {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+}
+
+.column {
+  display: block;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 1;
+  padding: 0.75rem;
+  min-width: 0;
 }

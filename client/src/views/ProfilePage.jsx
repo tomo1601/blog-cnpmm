@@ -32,7 +32,6 @@ const ProfilePage = () => {
 
     return (
         <>
-            <Topbar />
             <section style={{ backgroundColor: '#eee' }}>
                 <MDBContainer className="py-5">
                     <MDBRow>

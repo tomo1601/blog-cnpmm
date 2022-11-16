@@ -1,14 +1,13 @@
-import LoginForm from '../components/auth/LoginForm'
-import RegisterForm from '../components/auth/RegisterForm'
+import AdminLoginForm from '../components/auth/AdminLoginForm'
 import Spiner from 'react-bootstrap/Spinner'
 import { Redirect } from 'react-router-dom'
 import { useContext } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 
 
-const Auth = ({authRoute}) =>{
+const AuthAdmin = ({authRoute}) =>{
 
-    const {authState: {authLoading, isAuthenticated, isUser}} = useContext(AuthContext)
+    const {authState: {authLoading, isAuthenticated, isAdmin}} = useContext(AuthContext)
 
     let body
 
@@ -18,14 +17,13 @@ const Auth = ({authRoute}) =>{
             <Spiner animation = 'border' variant = 'info'/>
         </div>
     )
-    else if(isAuthenticated && isUser) 
-        return <Redirect to ='/homepage'/>
+    else if(isAuthenticated && isAdmin) 
+        return <Redirect to ='/dashboard'/>
     else  
     body = (
         <>
             
-            {authRoute==='login' && <LoginForm/>}
-            {authRoute==='register' && <RegisterForm/>}
+            {authRoute==='admin' && <AdminLoginForm/>}
            
         
         </>
@@ -39,4 +37,4 @@ const Auth = ({authRoute}) =>{
     )
 }
 
-export default Auth
+export default AuthAdmin
