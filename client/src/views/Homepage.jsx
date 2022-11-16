@@ -5,6 +5,7 @@ import { useState, useEffect, useContext } from "react";
 import { useLocation } from "react-router";
 import { PostContext } from "../contexts/PostContext";
 import Topbar from "../components/layout/TopBar";
+import Footer from "../components/layout/Footer";
 
 export default function Homepage() {
 
@@ -37,6 +38,7 @@ export default function Homepage() {
         <Posts posts={posts} />
         <Sidebar />
       </div>
+      <Footer/>
     </>
   );
 }

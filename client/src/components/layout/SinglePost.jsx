@@ -99,7 +99,6 @@ export default function SinglePost() {
   }
   return (
     <>
-      <Topbar />
       {!loading ? (
         <div className="singlePost">
           <div style={{ display: "flex", flexDirection: "column", padding: "20px", width: "15%", marginLeft: "20px" }}>

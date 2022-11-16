@@ -33,8 +33,8 @@ const AuthContextProvider = ({ children }) => {
             payload: {
               isAuthenticated: true,
               user: response.data.user,
-              isUser: false,
-              isAdmin: false,
+              isUser: response.data.user.role ==='User'?true: false,
+              isAdmin: response.data.user.role ==='Admin'?true: false,
             },
 
           });
