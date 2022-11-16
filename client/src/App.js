@@ -8,10 +8,10 @@ import AuthContextProvider from "./contexts/AuthContext"
 import PostContextProvider from "./contexts/PostContext"
 import About from './views/About'
 import PostDetail from './components/layout/PostDetail'
-import Profile from './components/layout/Profile'
 import Write from './views/Write'
 import Settings from './views/Settings'
 import ProfilePage from './views/ProfilePage'
+import ChangePassWord from './views/ChangePassWord'
 import { ToastProvider } from './contexts/ToastProvider';
 
 function App() {
@@ -28,10 +28,10 @@ function App() {
               <Route exact path='/homepage' component={Homepage} />
               <Route exact path='/about' component={About} />
               <Route exact path='/post/:id' component={PostDetail} />
-              <Route exact path='/user/:id' component={Profile} />
               <Route exact path='/write' component={Write} />
               <Route exact path='/settings' component={Settings} />
               <Route exact path='/profile' component={ProfilePage} />
+              <Route exact path='/changepassword' component={ChangePassWord}/>
             </Switch>
           </Router>
         </ToastProvider>
