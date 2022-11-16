@@ -97,17 +97,62 @@ const PostContextProvider = ({ children }) => {
         }
     }
 
-// export
-const authContextData = {
-    getAllPosts, getPostById, getPostByUserId,createPost,
-};
+    // update Post
+    const updatePost = async (post, id) => {
+        const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
+        try {
+            const response = await axios.put(`${apiUrl}/post/${id}`, post, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    'Authorization': `Bearer ${recentToken}`,
+                },
+            });
+            if (response.data.success) {
+                return response.data;
+            }
 
-//return
-return (
-    <PostContext.Provider value={authContextData}>
-        {children}
-    </PostContext.Provider>
-);
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
+
+    // delete Post
+    const deletePost = async (post) => {
+        const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
+        const id =[]
+        id.push(post)
+        console.log(id)
+        try {
+            const response = await axios.delete(`${apiUrl}/post/delete-post`, id, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${recentToken}`,
+                },
+            });
+            console.log(response)
+            if (response.data.success) {
+                return response.data;
+            }
+
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
+
+    // export
+    const authContextData = {
+        getAllPosts, getPostById, getPostByUserId, createPost, updatePost, 
+        deletePost, 
+    };
+
+    //return
+    return (
+        <PostContext.Provider value={authContextData}>
+            {children}
+        </PostContext.Provider>
+    );
 };
 
 export default PostContextProvider;

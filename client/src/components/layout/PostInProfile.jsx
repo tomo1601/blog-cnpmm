@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { apiUrl } from "../../contexts/constants";
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Button from "react-bootstrap/Button";
+import { PostContext } from "../../contexts/PostContext"
+import { useToast } from "../../contexts/Toast"
 
 export default function Post({ post }) {
 
@@ -12,6 +14,23 @@ export default function Post({ post }) {
       return viewPost.data */
   };
 
+  const { error, success } = useToast();
+
+  const { deletePost } = useContext(PostContext)
+
+  const deleteFunction = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await deletePost(post._id);
+      if (response.success) {
+        success('Deleted post successfully!')
+      } else {
+        error('Deleted post fail!')
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const [cateName, setCateName] = useState('')
 
@@ -31,13 +50,13 @@ export default function Post({ post }) {
   return (
     <div className="post-in-profile">
       <Link to={`/post/${post._id}`} className="link" onClick={() => handleView(post._id)}>
-      {post.photo &&
-        (<img
-          className="postImg-in-profile"
-          src={post.photo}
-          alt=""
-        />)
-      }
+        {post.photo &&
+          (<img
+            className="postImg-in-profile"
+            src={post.photo}
+            alt=""
+          />)
+        }
       </Link>
       <div className="postInfo">
         <div className="postCats">
@@ -56,8 +75,10 @@ export default function Post({ post }) {
       <p className="postDesc">
         {post.desc}
       </p>
-      <Button>Delete</Button>
-      <Button>Edit</Button>
+      <Button style={{ margin: '0 5px' }} onClick={deleteFunction}>Delete</Button>
+      <Link to=''>
+        <Button>Edit</Button>
+      </Link>
     </div>
   );
 }

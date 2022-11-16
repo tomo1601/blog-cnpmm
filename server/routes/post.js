@@ -102,7 +102,7 @@ router.post('/newpost',verifyAccessToken, uploadFile.single('photo'),async(req,r
 })
 
 //PUT - Edit post
-router.put('/:id', verifyAccessToken,uploadFile.single('thum'), async(req,res)=>{
+router.put('/:id', verifyAccessToken,uploadFile.single('photo'), async(req,res)=>{
 
     if(!req.params.id){
         return res.status(400).json({

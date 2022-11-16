@@ -149,7 +149,7 @@ export default function SinglePost() {
               <span className="singlePostAuthor">
                 Author:{" "}
                 <Link to={`/user/${post.userId._id}`} className="link">
-                  <b>{post.userId.username}</b>
+                  <b>{post.userId.fullname}</b>
                 </Link>
               </span>
               <span className="singlePostCats">
