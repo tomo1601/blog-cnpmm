@@ -5,7 +5,6 @@ require('dotenv').config
 const verifyAccessToken = async(req,res,next) =>{
     try {
         const authHeader = req.headers['authorization']
-        console.log(authHeader)
         if(!authHeader){
             return res
             .status(400)

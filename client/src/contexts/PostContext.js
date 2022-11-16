@@ -120,15 +120,13 @@ const PostContextProvider = ({ children }) => {
     // delete Post
     const deletePost = async (post) => {
         const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
-        const id =[]
-        id.push(post)
-        console.log(id)
         try {
-            const response = await axios.delete(`${apiUrl}/post/delete-post`, id, {
+            const response = await axios.delete(`${apiUrl}/post/delete-post`, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${recentToken}`,
                 },
+                data: post
             });
             console.log(response)
             if (response.data.success) {

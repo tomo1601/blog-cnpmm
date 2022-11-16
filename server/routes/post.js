@@ -151,25 +151,21 @@ router.put('/:id', verifyAccessToken,uploadFile.single('photo'), async(req,res)=
 })
 
 //delete - user
-router.delete('/delete-post', async(req,res)=>{
+router.delete('/delete-post',verifyAccessToken, async(req,res)=>{
     try {
         // let post = await Post.findOne({ userId: req.user._id, _id: req.params.id }) //userId de kiem tra co phai nguoi viet bai
         //                                                                             //muon xoa bai viet hay khong
         
         const list_id = req.body.id
-        
-        let posts = await Post.find({ '_id': { $in: list_id },userId: req.body.userId })
-
+        let posts = await Post.find({ '_id': { $in: list_id },userId: req.user._id })
         //return res.json(Object.keys(list_id).length)
-        if(posts.length !== Object.keys(list_id).length) {
+        if(posts.length === 0) {
             return res.status(400).json({success: false, error:"Posts not exsist!!"})
         }
 
         await Feeling.deleteMany({postId: { $in: list_id}})
         await Comment.deleteMany({postId: { $in: list_id}})
-
         await Post.deleteMany({'_id': { $in: list_id}})
-
         // await post.remove();
         return res.json({ success: true, message:"Delete successfully!!" });
     } catch (error) {
