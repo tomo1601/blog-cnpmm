@@ -26,7 +26,7 @@ GET http://localhost:5000/api/auth/forgotpassword
 Content-Type: application/json
 
 {
-    "username":"username3",
+    "username":"kabutohido",
     "email":"ngoanh91thangnhat@gmail.com"
 }
 
