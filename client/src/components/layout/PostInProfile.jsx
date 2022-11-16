@@ -4,6 +4,7 @@ import { apiUrl } from "../../contexts/constants";
 import { useState, useEffect, useContext } from 'react'
 import Button from "react-bootstrap/Button";
 import { PostContext } from "../../contexts/PostContext"
+import { AuthContext } from "../../contexts/AuthContext"
 import { useToast } from "../../contexts/Toast"
 
 export default function Post({ post }) {
@@ -15,13 +16,16 @@ export default function Post({ post }) {
   };
 
   const { error, success } = useToast();
-
   const { deletePost } = useContext(PostContext)
+
+  const [postWillDelete, setPostWillDelete] = useState({
+    id:[post._id]
+  })
 
   const deleteFunction = async (event) => {
     event.preventDefault();
     try {
-      const response = await deletePost(post._id);
+      const response = await deletePost(postWillDelete);
       if (response.success) {
         success('Deleted post successfully!')
       } else {
