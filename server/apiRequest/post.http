@@ -40,7 +40,7 @@ GET http://localhost:5000/api/post?categoryId=632b2485917b7e66adbc8a61
 GET http://localhost:5000/api/post?userId=632805974c49bcc495054d0f
 
 
-###
+### user delete
 DELETE http://localhost:5000/api/post/delete-post
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzZiMjg1MDA4ZTE2YjM0ZWYxNTk2MTMiLCJpYXQiOjE2Njg1ODkwNjcsImV4cCI6MTY2ODg0ODI2N30.iiyk-o8J3j4x2XlEbsgRnpUl3r5NSHPrU0KBqdefoS0
@@ -48,7 +48,25 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzZiM
 {
     "id":
     [
+<<<<<<< HEAD
         "6374a43489bf74e92be87613",
         "6374a47789bf74e92be87619"
+=======
+        "634044aae9f3ac1ea2788ee4",
+        "6340445ee9f3ac1ea2788ee0"
+    ],
+    "userId":"632b003bc49e60232f605106"
+}
+
+###admin delete
+DELETE http://localhost:5000/api/post/admin/deletepost
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2Njg1OTg5MzQsImV4cCI6MTY2ODg1ODEzNH0.71fho04DXhZ_DDCGcZgFZRmUraiuOZuayb1mQkcFTJw
+
+{
+    "id":
+    [
+        "632bc231df437c9ec64f5d57"
+>>>>>>> bf5c17c9bf98a8f72f957b04c6e3ccbc711aeb47
     ]
 }
