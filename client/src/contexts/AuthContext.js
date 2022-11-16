@@ -41,8 +41,8 @@ const AuthContextProvider = ({ children }) => {
         } else throw new Error("Unauthorized !");
       }
     } catch (error) {
-      /* localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
-      localStorage.removeItem(USER_ROLE); */
+      localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME);
+      localStorage.removeItem(USER_ROLE);
       dispatch({
         type: "SET_AUTH",
         payload: {
@@ -185,9 +185,42 @@ const AuthContextProvider = ({ children }) => {
       else return { success: false, message: error.message };
     }
   }
+
+  // change password
+  const changePassWord = async (pass) => {
+    try {
+
+      const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME];
+      const response = await axios.put(`${apiUrl}/user/update-password/${pass._id}`, pass,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${recentToken}`
+          },
+        });
+      if (response.data.success) 
+        return response.data
+    }
+    catch (error) {
+      if (error.response.data) return error.response.data;
+      else return { success: false, message: error.message };
+    }
+  }
+  // getCate by id
+  const getCateById = async (id) => {
+    try {
+      const response = await axios.get(`${apiUrl}/category/${id}`);
+      return response.data;
+    } catch (error) {
+      if (error.response.data) return error.response.data;
+      else return { success: false, message: error.message };
+    }
+  };
+
+
   const authContextData = {
     loginUser, registerUser, loginAdmin, logout, getUserById, authState,
-    mailAuth, updatePofile,
+    mailAuth, updatePofile, changePassWord, getCateById,
 
   };
 

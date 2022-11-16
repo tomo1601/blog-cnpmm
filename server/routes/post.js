@@ -60,7 +60,7 @@ router.post('/upload/:id',verifyAccessToken,uploadFile.single('thum'),async (req
 })
 
 //- POST - create new post
-router.post('/newpost',verifyAccessToken, uploadFile.single('thum'),async(req,res)=>{
+router.post('/newpost',verifyAccessToken, uploadFile.single('photo'),async(req,res)=>{
     const{title,desc,categoryId} = req.body
 
     const options = {

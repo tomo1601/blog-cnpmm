@@ -37,7 +37,7 @@ const ProfilePage = () => {
                 <MDBContainer className="py-5">
                     <MDBRow>
                         <MDBCol>
-                            <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4">
+                            <MDBBreadcrumb className="bg-light rounded-3 p-3 mb-4" style={{marginTop: '-20px'}}>
                                 <MDBBreadcrumbItem>
                                     <Link to='/homepage' className='link-profile'>Home</Link>
                                 </MDBBreadcrumbItem>
@@ -64,7 +64,7 @@ const ProfilePage = () => {
                                         <Link to='/settings'>
                                             <MDBBtn outline className="ms-1">Change Information</MDBBtn>
                                         </Link>
-                                        
+
                                     </div>
                                 </MDBCardBody>
                             </MDBCard>
@@ -73,32 +73,23 @@ const ProfilePage = () => {
                                 <MDBCardBody className="p-0">
                                     <MDBListGroup flush className="rounded-3">
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fas icon="globe fa-lg text-warning" />
-                                            <MDBCardText>https://mdbootstrap.com</MDBCardText>
+                                            <Link className='link-to-changepass' to='/changepassword'>
+                                                <MDBCardText>CHANGE YOUR PASSWORD</MDBCardText>
+                                            </Link>
                                         </MDBListGroupItem>
                                         <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fab icon="github fa-lg" style={{ color: '#333333' }} />
-                                            <MDBCardText>mdbootstrap</MDBCardText>
+                                            <Link className='link-to-changepass' to='/profile'>
+                                                <MDBCardText>YOUR POST</MDBCardText>
+                                            </Link>
                                         </MDBListGroupItem>
-                                        <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fab icon="twitter fa-lg" style={{ color: '#55acee' }} />
-                                            <MDBCardText>@mdbootstrap</MDBCardText>
-                                        </MDBListGroupItem>
-                                        <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fab icon="instagram fa-lg" style={{ color: '#ac2bac' }} />
-                                            <MDBCardText>mdbootstrap</MDBCardText>
-                                        </MDBListGroupItem>
-                                        <MDBListGroupItem className="d-flex justify-content-between align-items-center p-3">
-                                            <MDBIcon fab icon="facebook fa-lg" style={{ color: '#3b5998' }} />
-                                            <MDBCardText>mdbootstrap</MDBCardText>
-                                        </MDBListGroupItem>
+                                        
                                     </MDBListGroup>
                                 </MDBCardBody>
                             </MDBCard>
                         </MDBCol>
                         <MDBCol lg="8">
                             <MDBCard className="mb-4">
-                                <MDBCardBody>
+                                <MDBCardBody style={{padding: '34px'}}>
                                     <MDBRow>
                                         <MDBCol sm="3">
                                             <MDBCardText>Full Name</MDBCardText>
@@ -150,7 +141,7 @@ const ProfilePage = () => {
                                 <MDBCol md="12">
                                     <MDBCard className="mb-4 mb-md-0">
                                         <MDBCardBody>
-                                            <MDBCardText style={{ display: `${havePost ? 'block' : 'none'}`, textAlign: 'center', fontSize: '18px'}} className="mb-4 t-center">You don't have any Post!</MDBCardText>
+                                            <MDBCardText style={{ display: `${havePost ? 'block' : 'none'}`, textAlign: 'center', fontSize: '18px' }} className="mb-4 t-center">You don't have any Post!</MDBCardText>
                                             <UserPost posts={posts} />
 
                                         </MDBCardBody>
