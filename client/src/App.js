@@ -15,15 +15,6 @@ import ChangePassWord from './views/ChangePassWord'
 import { ToastProvider } from './contexts/ToastProvider';
 import PageNotFound from './views/PageNotFound';
 import ProtectedRoute from "./components/routing/ProtectedRoute";
-import AdminRoute from "./components/routing/AdminRoute";
-import Dashboard from './views/admin/Dashboard'
-import Team from './views/admin/Team'
-import Blog from './views/admin/Blog'
-import Category from './views/admin/Category'
-import Bar from './views/admin/Bar'
-import Form from './views/admin/Form'
-import Pie from './views/admin/Pie'
-import Line from './views/admin/Line'
 
 function App() {
   return (
@@ -43,14 +34,6 @@ function App() {
               <ProtectedRoute exact path='/settings' component={Settings} />
               <ProtectedRoute exact path='/profile' component={ProfilePage} />
               <ProtectedRoute exact path='/changepassword' component={ChangePassWord}/>
-              <AdminRoute exact path="/dashboard" component={Dashboard } />
-              <AdminRoute exact path="/team" component={Team} />
-              <AdminRoute exact path="/blog" component={Blog } />
-              <AdminRoute exact path="/category" component={Category} />
-              <AdminRoute exact path="/form" component={Form } />
-              <AdminRoute exact path="/bar" component={Bar} />
-              <AdminRoute exact path="/pie" component={Pie} />
-              <AdminRoute exact path="/line" component={Line} />
               <Route path="/" component={PageNotFound} />
 
             </Switch>
