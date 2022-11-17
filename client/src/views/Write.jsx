@@ -32,13 +32,11 @@ const Write = () => {
     });
   const [cats, setCategory] = useState([])
   const [catName, setCatName] = useState('')
-
   const onChangeSelectCate = (event) => {
     setPost({
       ...post,
       categoryId: event.target.value
     });
-
   }
   useEffect(() => {
     const getCats = async () => {
@@ -144,11 +142,12 @@ const Write = () => {
                   <span style={{ fontSize: "30px", fontWeight: "600" }}>Category</span>
                   <select
                     className="select-form-search"
+                    style={{    height: '30px', borderRadius: '5px', marginTop: '5px'}}
                     name="city"
                     onChange={onChangeSelectCate}
                   >
                     <option key={""} value="" defaultChecked>
-                      Select City Location
+                      Select Category
                     </option>
                     {cats.map((category) => (
                       <option key={category._id} value={category._id}>
