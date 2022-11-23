@@ -30,7 +30,6 @@ router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
             postId: req.body.postId,
             userId: req.user._id
         })
-
         //update feeling
         if(req.body.type === "like"){
             post.likes++
@@ -40,7 +39,7 @@ router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
         }
 
         await post.save()
-
+        
         return res.json({success: true, data:post})
     }
 
@@ -86,9 +85,10 @@ router.get("/checkfeeling/",verifyAccessToken, async(req,res)=>{
     }
 
     let feeling = await Feeling.findOne({
-        postId: req.body.postId,
-        userId: req.user._id.toString()
+        postId: req.query.postId,
+        userId: req.user._id
     })
+   
     if(feeling === null){
         return res.json({success: true, like:false, dislike:false})
     }
