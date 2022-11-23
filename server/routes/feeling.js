@@ -79,7 +79,6 @@ router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
 })
 
 router.get("/checkfeeling/",verifyAccessToken, async(req,res)=>{
-    console.log(req.user._id)
     const post = await Post.findById({_id:req.query.postId})
 
     if(!post){

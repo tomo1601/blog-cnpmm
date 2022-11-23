@@ -32,7 +32,9 @@ export default function SinglePost() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState();
   const [like, setLike] = useState(false);
+  const [dislike, setDisLike] = useState(false)
   const [likes, setLikes] = useState(0);
+  const [dislikes, setDisLikes] = useState(0)
   const [loading, setLoading] = useState(true);
   const [postByCate, setPostByCate] = useState([])
 
@@ -67,8 +69,8 @@ export default function SinglePost() {
 
     const checkLike = async () => {
       const res = await checkFeeling(id);
-      console.log(res)
-      /* setLike(res.data.data.feeling ? true : false); */
+      setLike(res.like);
+      setDisLike(res.dislike)
     }
     getPost();
     checkLike();
