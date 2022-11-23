@@ -8,14 +8,14 @@ import CommentExampleComment from "./Comment"
 import TextareaAutosize from 'react-textarea-autosize';
 import { Fab } from '@mui/material';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
+import SentimentVeryDissatisfiedIcon from '@mui/icons-material/SentimentVeryDissatisfied';
 import ChatBubbleOutlineOutlinedIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 import Badge from '@mui/material/Badge';
 import { FacebookShareButton } from "react-share";
 import { PostContext } from "../../contexts/PostContext";
 import axios from "axios";
 import { apiUrl } from "../../contexts/constants";
-import Topbar from "./TopBar";
+import PostReconmnd from '../layout/PostRecomend'
 
 export default function SinglePost() {
 
@@ -32,12 +32,14 @@ export default function SinglePost() {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState();
   const [like, setLike] = useState(false);
+  const [dislike, setDisLike] = useState(false)
   const [likes, setLikes] = useState(0);
-  const [updateMode, setUpdateMode] = useState(false);
+  const [dislikes, setDisLikes] = useState(0)
   const [loading, setLoading] = useState(true);
+  const [postByCate, setPostByCate] = useState([])
 
   const { user } = useContext(AuthContext);
-  const { getPostById } = useContext(PostContext)
+  const { getPostById, getPostByCateId, likePost, checkFeeling, } = useContext(PostContext)
 
   useEffect(() => {
     const getPost = async () => {
@@ -50,17 +52,26 @@ export default function SinglePost() {
           setCategory(response.data.category.name)
         }
       }
+      const pBCI = async () => {
+        const rescate = await getPostByCateId(res.post.categoryId)
+        const new_arr = rescate.post.filter(item => item._id !== res.post._id);
+        setPostByCate(new_arr)
+      }
 
+      pBCI()
       getCategory()
       setPost(res.post);
       setTitle(res.post.title);
       setDescription(res.post.desc);
       setLikes(res.post.likes);
+      setDisLikes(res.post.dislikes)
       setLoading(!post ? true : false);
     };
+
     const checkLike = async () => {
-      /* const res = await FeelingService.checkFeeling({postId: path});
-      setLike(res.data.data.feeling ? true : false); */
+      const res = await checkFeeling(id);
+      setLike(res.like);
+      setDisLike(res.dislike)
     }
     getPost();
     checkLike();
@@ -79,23 +90,49 @@ export default function SinglePost() {
     }
   };
 
-  const handleUpdate = async () => {
-    try {
-      /* await PostService.updatePost(post._id, {
-        title,
-        description,
-        category,
-      }); */
-      setUpdateMode(false)
-    } catch (err) { }
-  };
-
   const handleLike = async () => {
-    /* const res = await FeelingService.createFeeling({
-      postId: post._id,
+    const res = await likePost({
+      postId: id,
       type: 'like'
     })
-    Object.getOwnPropertyNames(res.data.data).length === 0 ? setLike(false) : setLike(true) */
+    if (res.success) {
+      setLike(true)
+      setDisLike(false)
+      setLikes(likes+1)
+    }
+  }
+
+  const handleDisLike = async () => {
+    const res = await likePost({
+      postId: id,
+      type: 'dislike'
+    })
+    if (res.success) {
+      setLike(false)
+      setDisLike(true)
+      setLikes(dislikes+1)
+    }
+  }
+
+  let recommendPost
+  if (postByCate.length === 0) {
+    recommendPost = (
+      <div className='post-relatetion'>
+        There are no related posts
+      </div>
+    )
+  }
+  else {
+    recommendPost = (
+
+      <div className='post-relatetion'>
+        <div> <u>Post related</u></div>
+        {postByCate.map((p, _id) => (
+          <PostReconmnd post={p} key={_id} />
+        ))}
+      </div>
+
+    )
   }
   return (
     <>
@@ -103,47 +140,27 @@ export default function SinglePost() {
         <div className="singlePost">
           <div style={{ display: "flex", flexDirection: "column", padding: "20px", width: "15%", marginLeft: "20px" }}>
             <div style={{ position: "sticky", top: "120px" }}>
-              <FacebookShareButton url={window.location.href}
-                quote={"All is good"}
-                hashtag={"#hashtag"}
-                description={"idk"}
-                className="Demo__some-network__share-button">
-                <Fab aria-label="share" style={{ margin: "20px 0px", backgroundColor: "#F2F6FF" }}>
-                  <CreateOutlinedIcon />
-                </Fab>
-              </FacebookShareButton>
+
               <Fab aria-label="edit" style={{ margin: "20px 0px", backgroundColor: "#F2F6FF" }} onClick={executeScroll}>
                 <ChatBubbleOutlineOutlinedIcon />
               </Fab>
+              <Badge badgeContent={dislikes} color="primary" style={{margin: "20px 0px"}}>
+                <Fab aria-label="dislike" style={{backgroundColor: "#F2F6FF" }} onClick={handleDisLike}>
+                  <SentimentVeryDissatisfiedIcon color={dislike ? 'primary' : 'default'} />
+                </Fab>
+              </Badge>
               <Badge badgeContent={likes} color="primary" style={{ margin: "20px 0px" }}>
                 <Fab aria-label="like" style={{ backgroundColor: "#F2F6FF" }} onClick={handleLike}>
                   <FavoriteIcon color={like ? 'primary' : 'default'} />
                 </Fab>
               </Badge>
             </div>
-
-
           </div>
           <div className="singlePostWrapper">
             <img src={post.photo} alt="" className="singlePostImg" />
-            {updateMode ? (
-              <input
-                type="text"
-                value={title}
-                className="singlePostTitleInput"
-                autoFocus
-                onChange={(e) => setTitle(e.target.value)}
-              />
-            ) : (
-              <h1 className="singlePostTitle">
-                {title}
-                {post.userId._id === user?._id &&
-                  (<div className="singlePostEdit">
-                    <Edit className="singlePostIcon" onClick={() => setUpdateMode(true)} />
-                    <Delete className="singlePostIcon" onClick={handleDelete} />
-                  </div>)}
-              </h1>
-            )}
+            <h1 className="singlePostTitle">
+              {title}
+            </h1>
             <div className="singlePostInfo">
               <span className="singlePostAuthor">
                 Author:{" "}
@@ -162,28 +179,14 @@ export default function SinglePost() {
                 Likes:{" "}
                 <span className="singlePostCats">{post.likes}</span>
               </span>
-
               <span className="singlePostDate">
                 {new Date(post.createDate).toDateString()}
               </span>
             </div>
-            {updateMode ? (
-              <TextareaAutosize
-                className="singlePostDescInput"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            ) : (
-              <p className="singlePostDesc">{description}</p>
-            )}
-            {updateMode && (
-              <button className="singlePostButton" onClick={handleUpdate}>
-                Update
-              </button>
-            )}
+            <p className="singlePostDesc">{description}</p>
             <div ref={myRef}><CommentExampleComment /></div>
           </div>
-          <div className='post-relatetion'> There are no related posts</div>
+          {recommendPost}
         </div>
       ) : null
       }

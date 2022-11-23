@@ -1,6 +1,6 @@
 POST http://localhost:5000/api/feeling/createFeeling
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2Njc5OTAzMzcsImV4cCI6MTY2ODI0OTUzN30.i6wJDIKv6BrXJoxw4rxXVaXYfWXwbMAXDCyQ8UHl0OA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzZiMjg1MDA4ZTE2YjM0ZWYxNTk2MTMiLCJpYXQiOjE2NjkxMjcyNTMsImV4cCI6MTY2OTM4NjQ1M30.OWfrO5tkStYKOT_QPe0G_szk9fh7L5AZ6LrZKzzf6gA
 
 {
     "type":"like",
@@ -8,10 +8,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4M
 }
 ###
 
-GET http://localhost:5000/api/feeling/checkfeeling
+GET http://localhost:5000/api/feeling/checkfeeling/?postId=6334f7c3392aefeca1ca0a65
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjgwNDY5NjksImV4cCI6MTY2ODMwNjE2OX0.3QmS9YXSA-n_ltZU4IyHjSikWxIhL7RYsgcuf4B_gNs
-
-{
-   "postId": "6334f7c3392aefeca1ca0a65"
-}
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzZiMjg1MDA4ZTE2YjM0ZWYxNTk2MTMiLCJpYXQiOjE2NjkxMjcyNTMsImV4cCI6MTY2OTM4NjQ1M30.OWfrO5tkStYKOT_QPe0G_szk9fh7L5AZ6LrZKzzf6gA

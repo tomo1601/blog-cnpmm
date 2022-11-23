@@ -10,12 +10,12 @@ const FeelingSchema = new Schema(
       required: [true, 'Type is required either like or dislike']
     },
     postId: {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'posts',
       required: [true, 'Post id is required']
     },
     userId: {
-      type: mongoose.Schema.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'users',
       required: true
     },
