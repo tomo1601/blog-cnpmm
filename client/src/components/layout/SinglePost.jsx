@@ -39,7 +39,7 @@ export default function SinglePost() {
   const [postByCate, setPostByCate] = useState([])
 
   const { user } = useContext(AuthContext);
-  const { getPostById, getPostByCateId, likePost, checkFeeling,  } = useContext(PostContext)
+  const { getPostById, getPostByCateId, likePost, checkFeeling, } = useContext(PostContext)
 
   useEffect(() => {
     const getPost = async () => {
@@ -64,6 +64,7 @@ export default function SinglePost() {
       setTitle(res.post.title);
       setDescription(res.post.desc);
       setLikes(res.post.likes);
+      setDisLikes(res.post.dislikes)
       setLoading(!post ? true : false);
     };
 
@@ -90,11 +91,27 @@ export default function SinglePost() {
   };
 
   const handleLike = async () => {
-    /* const res = await FeelingService.createFeeling({
-      postId: post._id,
+    const res = await likePost({
+      postId: id,
       type: 'like'
     })
-    Object.getOwnPropertyNames(res.data.data).length === 0 ? setLike(false) : setLike(true) */
+    if (res.success) {
+      setLike(true)
+      setDisLike(false)
+      setLikes(likes+1)
+    }
+  }
+
+  const handleDisLike = async () => {
+    const res = await likePost({
+      postId: id,
+      type: 'dislike'
+    })
+    if (res.success) {
+      setLike(false)
+      setDisLike(true)
+      setLikes(dislikes+1)
+    }
   }
 
   let recommendPost
@@ -127,9 +144,11 @@ export default function SinglePost() {
               <Fab aria-label="edit" style={{ margin: "20px 0px", backgroundColor: "#F2F6FF" }} onClick={executeScroll}>
                 <ChatBubbleOutlineOutlinedIcon />
               </Fab>
-              <Fab aria-label="dislike" style={{ margin: "20px 0px", backgroundColor: "#F2F6FF" }} onClick={handleLike}>
-                <SentimentVeryDissatisfiedIcon />
-              </Fab>
+              <Badge badgeContent={dislikes} color="primary" style={{margin: "20px 0px"}}>
+                <Fab aria-label="dislike" style={{backgroundColor: "#F2F6FF" }} onClick={handleDisLike}>
+                  <SentimentVeryDissatisfiedIcon color={dislike ? 'primary' : 'default'} />
+                </Fab>
+              </Badge>
               <Badge badgeContent={likes} color="primary" style={{ margin: "20px 0px" }}>
                 <Fab aria-label="like" style={{ backgroundColor: "#F2F6FF" }} onClick={handleLike}>
                   <FavoriteIcon color={like ? 'primary' : 'default'} />

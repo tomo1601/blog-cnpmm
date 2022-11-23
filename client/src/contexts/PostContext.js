@@ -156,12 +156,12 @@ const PostContextProvider = ({ children }) => {
         const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
 
         try {
-            const response = await axios.post(`${apiUrl}/feeling/createFeeling`, {
+            const response = await axios.post(`${apiUrl}/feeling/createFeeling`,post, {
                 headers: {
                     "Content-Type": "application/json",
                     Authorization: `Bearer ${recentToken}`,
                 },
-                data: post
+                
             });
             if (response.data.success) {
                 return response.data;
@@ -175,7 +175,7 @@ const PostContextProvider = ({ children }) => {
     // checkfeeling
     const checkFeeling = async (id) => {
         const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
-        
+
         try {
             const response = await axios.get(`${apiUrl}/feeling/checkfeeling/?postId=${id}`,
             {
