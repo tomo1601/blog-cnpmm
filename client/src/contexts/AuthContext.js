@@ -65,7 +65,6 @@ const AuthContextProvider = ({ children }) => {
       if (response.data.success) {
         localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data.token);
         localStorage.setItem(USER_ROLE, response.data.info.role);
-        console.log(response)
         dispatch({
           type: "SET_AUTH",
           payload: {

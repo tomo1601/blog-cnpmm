@@ -32,7 +32,7 @@ router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
         })
 
         //update feeling
-        if(req.body.type == "like"){
+        if(req.body.type === "like"){
             post.likes++
         }
         else{
@@ -44,11 +44,11 @@ router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
         return res.json({success: true, data:post})
     }
 
-    if (req.body.type == feeling.type) {
+    if (req.body.type === feeling.type) {
         await feeling.remove()
 
         //update feeling
-        if(req.body.type == "like"){
+        if(req.body.type === "like"){
             post.likes--
         }
         else{
@@ -64,7 +64,7 @@ router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
     feeling = await feeling.save()
 
     //update feeling
-    if(req.body.type == "like"){
+    if(req.body.type === "like"){
         post.likes++
         post.dislikes--
     }
@@ -78,8 +78,9 @@ router.post('/createFeeling', verifyAccessToken, async(req,res)=>{
     res.status(200).json({ success: true, data: post })
 })
 
-router.get("/checkfeeling",verifyAccessToken, async(req,res)=>{
-    const post = await Post.findOne({_id:req.body.postId})
+router.get("/checkfeeling/",verifyAccessToken, async(req,res)=>{
+    console.log(req.user._id)
+    const post = await Post.findById({_id:req.query.postId})
 
     if(!post){
         return res.status(400).json({success: false, error:"Post not exsist!!"})
@@ -87,20 +88,19 @@ router.get("/checkfeeling",verifyAccessToken, async(req,res)=>{
 
     let feeling = await Feeling.findOne({
         postId: req.body.postId,
-        userId: req.user._id
+        userId: req.user._id.toString()
     })
-
-    if(feeling){
-        if(feeling.type == "like"){
-            return res.json({success: true, like:true})
+    if(feeling === null){
+        return res.json({success: true, like:false, dislike:false})
+    }
+    else {
+        if(feeling.type === "like"){
+            return res.json({success: true, like:true, dislike:false})
         }
         else{
-            return res.json({success: true, dislike:true})
+            return res.json({success: true, like:false, dislike:true})
         }
     }  
-    else{
-        return res.status(400).json({success: false, error:"Post not exsist!!"})
-    }
 
 })
 

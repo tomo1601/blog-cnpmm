@@ -10,7 +10,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4M
 
 GET http://localhost:5000/api/feeling/checkfeeling
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI4MDU5NzRjNDliY2M0OTUwNTRkMGYiLCJpYXQiOjE2NjgwNDY5NjksImV4cCI6MTY2ODMwNjE2OX0.3QmS9YXSA-n_ltZU4IyHjSikWxIhL7RYsgcuf4B_gNs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzZiMjg1MDA4ZTE2YjM0ZWYxNTk2MTMiLCJpYXQiOjE2NjkxMjcyNTMsImV4cCI6MTY2OTM4NjQ1M30.OWfrO5tkStYKOT_QPe0G_szk9fh7L5AZ6LrZKzzf6gA
 
 {
    "postId": "6334f7c3392aefeca1ca0a65"

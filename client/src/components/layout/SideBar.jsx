@@ -1,5 +1,4 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, Pinterest, Twitter } from '@mui/icons-material';
 import { useEffect, useState } from "react";
 import aboutImg from '../../assets/73423_about_her_stop_thinking_icon.png'
 import axios from "axios";
@@ -45,15 +44,7 @@ export default function Sidebar() {
           ))}
         </ul>
       </div>
-      <div className="sidebarItem">
-        <span className="sidebarTitle">FOLLOW US</span>
-        <div className="sidebarSocial">
-          <Facebook className="sidebarIcon" />
-          <Instagram className="sidebarIcon" />
-          <Pinterest className="sidebarIcon" />
-          <Twitter className="sidebarIcon" />
-        </div>
-      </div>
+      
     </div>
   );
 }

@@ -138,11 +138,65 @@ const PostContextProvider = ({ children }) => {
             else return { success: false, message: error.message };
         }
     }
+    //get post by category
+    const getPostByCateId = async (id) => {
+        try {
+            const response = await axios.get(`${apiUrl}/post/?categoryId=${id}`);
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
 
+    // like/ dislike
+    const likePost = async (post) => {
+        const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
+
+        try {
+            const response = await axios.post(`${apiUrl}/feeling/createFeeling`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${recentToken}`,
+                },
+                data: post
+            });
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
+
+    // checkfeeling
+    const checkFeeling = async (id) => {
+        const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
+        
+        try {
+            const response = await axios.get(`${apiUrl}/feeling/checkfeeling/?postId=${id}`,
+            {
+                headers: {
+                    'Accept': 'application/json',
+                    Authorization: `Bearer ${recentToken}`,
+                },  
+            })
+            /* axios.get(`${apiUrl}/feeling/checkfeeling`, postId, headers); */
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
     // export
     const authContextData = {
-        getAllPosts, getPostById, getPostByUserId, createPost, updatePost, 
-        deletePost, 
+        getAllPosts, getPostById, getPostByUserId, createPost, updatePost,
+        deletePost, getPostByCateId, likePost, checkFeeling,
     };
 
     //return
