@@ -41,6 +41,12 @@ export default function SinglePost() {
   const { user } = useContext(AuthContext);
   const { getPostById, getPostByCateId, likePost, checkFeeling, } = useContext(PostContext)
 
+  const checkLike = async () => {
+    const res = await checkFeeling(id);
+    setLike(res.like)
+    setDisLike(res.dislike)
+  }
+  
   useEffect(() => {
     const getPost = async () => {
       const res = await getPostById(id);
@@ -68,27 +74,10 @@ export default function SinglePost() {
       setLoading(!post ? true : false);
     };
 
-    const checkLike = async () => {
-      const res = await checkFeeling(id);
-      setLike(res.like);
-      setDisLike(res.dislike)
-    }
     getPost();
     checkLike();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path, like]);
-
-  const handleDelete = async () => {
-    const confirm = window.confirm("Are you sure you want to delete this account?");
-    if (confirm) {
-      try {
-        /* await PostService.deleteById(post._id); */
-        window.location.replace("/");
-      } catch (err) {
-        console.log(err);
-      }
-    }
-  };
 
   const handleLike = async () => {
     const res = await likePost({
@@ -96,9 +85,9 @@ export default function SinglePost() {
       type: 'like'
     })
     if (res.success) {
-      setLike(true)
-      setDisLike(false)
-      setLikes(likes+1)
+      checkLike()
+      setLikes(res.data.likes);
+      setDisLikes(res.data.dislikes)
     }
   }
 
@@ -108,9 +97,9 @@ export default function SinglePost() {
       type: 'dislike'
     })
     if (res.success) {
-      setLike(false)
-      setDisLike(true)
-      setLikes(dislikes+1)
+      checkLike()
+      setLikes(res.data.likes);
+      setDisLikes(res.data.dislikes)
     }
   }
 
@@ -144,8 +133,8 @@ export default function SinglePost() {
               <Fab aria-label="edit" style={{ margin: "20px 0px", backgroundColor: "#F2F6FF" }} onClick={executeScroll}>
                 <ChatBubbleOutlineOutlinedIcon />
               </Fab>
-              <Badge badgeContent={dislikes} color="primary" style={{margin: "20px 0px"}}>
-                <Fab aria-label="dislike" style={{backgroundColor: "#F2F6FF" }} onClick={handleDisLike}>
+              <Badge badgeContent={dislikes} color="primary" style={{ margin: "20px 0px" }}>
+                <Fab aria-label="dislike" style={{ backgroundColor: "#F2F6FF" }} onClick={handleDisLike}>
                   <SentimentVeryDissatisfiedIcon color={dislike ? 'primary' : 'default'} />
                 </Fab>
               </Badge>
@@ -184,7 +173,7 @@ export default function SinglePost() {
               </span>
             </div>
             <p className="singlePostDesc">{description}</p>
-            <div ref={myRef}><CommentExampleComment /></div>
+            <div ref={myRef}><CommentExampleComment postId={id} /></div>
           </div>
           {recommendPost}
         </div>
