@@ -193,10 +193,83 @@ const PostContextProvider = ({ children }) => {
             else return { success: false, message: error.message };
         }
     }
+
+    // new comment
+    const newComment = async (cmt) => {
+        const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
+
+        try {
+            const response = await axios.post(`${apiUrl}/comment/newcomment`,cmt, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${recentToken}`,
+                },
+                
+            });
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
+    // edit comment
+    const editComment = async (cmtId,text) => {
+        const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
+        try {
+            const response = await axios.put(`${apiUrl}/comment/${cmtId}`,text, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${recentToken}`,
+                },
+                
+            });
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
+    // delete comment
+    const deleteComment = async (cmtId) => {
+        const recentToken = localStorage[LOCAL_STORAGE_TOKEN_NAME]
+        try {
+            const response = await axios.delete(`${apiUrl}/comment/${cmtId}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${recentToken}`,
+                },
+                
+            });
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
+    // new comment
+    const getComment = async (postId) => {
+        try {
+            const response = await axios.get(`${apiUrl}/comment/?postId=${postId}`);
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
     // export
     const authContextData = {
         getAllPosts, getPostById, getPostByUserId, createPost, updatePost,
-        deletePost, getPostByCateId, likePost, checkFeeling,
+        deletePost, getPostByCateId, likePost, checkFeeling, newComment, 
+        getComment, editComment, deleteComment,
+
     };
 
     //return

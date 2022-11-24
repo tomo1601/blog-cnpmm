@@ -51,7 +51,7 @@ router.put('/:id',verifyAccessToken, async(req,res)=>{
     try {
         const comment = await Comment.findOne({_id:req.params.id})
         .populate("postId")
-        .populate("userId",["username","avatar"])
+        .populate("userId",["fullname","avatar"])
 
         if(!comment){
             return res.status(400).json({success: false, error:"Comment not exsist!!"})
@@ -74,18 +74,19 @@ router.put('/:id',verifyAccessToken, async(req,res)=>{
 //DELETE - delete comment
 router.delete('/:id',verifyAccessToken, async(req,res)=>{
     const comment = await Comment.findOne({_id:req.params.id})
+    .populate("postId")
+    .populate("userId",["fullname","avatar"])
 
     if(!comment){
         return res.status(400).json({success: false, error:"Comment not exsist!!"})
     }
 
-    console.log(comment.userId.toString())
     if(!req.user._id.toString() === comment.userId.toString()){
         return res.status(400).json({success: false, error:"Don't have permission to fix this comment!!"})
     }
 
     await comment.remove();
-    res.json({success: true,  message:"Delete successfully!!" });
+    res.json({success: true,  message:"Delete successfully!!", comment });
 })
 
 //GET - get all comment by postId
@@ -100,7 +101,7 @@ router.get('/',async(req,res)=>{
         const comment = await Comment.find({postId:req.query.postId})
         .sort("-updatedAt")
         // .sort("-createdAt")
-        .populate("userId",["username","avatar"])
+        .populate("userId",["fullname","avatar"])
 
         if(!comment){
             return res
