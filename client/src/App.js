@@ -15,7 +15,7 @@ import ChangePassWord from './views/ChangePassWord'
 import { ToastProvider } from './contexts/ToastProvider';
 import PageNotFound from './views/PageNotFound';
 import ProtectedRoute from "./components/routing/ProtectedRoute";
-
+import SearchFilter from './views/SearchFilter'
 function App() {
   return (
     <AuthContextProvider>
@@ -29,6 +29,7 @@ function App() {
               <Route exact path='/admin' render={props => <AuthAdmin {...props} authRoute='admin' />} />
               <Route exact path='/homepage' component={Homepage} />
               <Route exact path='/about' component={About} />
+              <Route exact path='/search' component={SearchFilter}/>
               <ProtectedRoute exact path='/post/:id' component={PostDetail} />
               <ProtectedRoute exact path='/write' component={Write} />
               <ProtectedRoute exact path='/settings' component={Settings} />
