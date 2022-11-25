@@ -73,7 +73,6 @@ export default function Post({ post }) {
         <Link to={`/post/${post._id}`} className="link" onClick={() => handleView(post._id)}>
           <span className="postTitle">{post.title}</span>
         </Link>
-        <hr />
         <span className="postDate">{new Date(post.createDate).toDateString()}</span>
       </div>
       <p className="postDesc">

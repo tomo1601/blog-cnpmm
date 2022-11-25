@@ -126,6 +126,7 @@ const CommentExampleComment = (postId) => {
     setNewCmtText({
       ...newCmtText, text: '',
     });
+    setEditState(false)
   }
 
 

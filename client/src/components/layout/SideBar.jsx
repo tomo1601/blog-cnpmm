@@ -6,7 +6,6 @@ import { apiUrl } from "../../contexts/constants";
 
 export default function Sidebar() {
   const [cats, setCats] = useState([]);
-
   useEffect(() => {
     const getCats = async () => {
       const res = await axios.get(`${apiUrl}/category/get-all`)
@@ -34,12 +33,14 @@ export default function Sidebar() {
           </Link>
         </p>
       </div>
-      <div className="sidebarItem">
+      <div className="sidebarItem" style={{width: '80%'}}>
         <span className="sidebarTitle">CATEGORIES</span>
-        <ul className="sidebarList">
-          {cats.map((c) => (
-            <Link to={`/?categoryId=${c._id}`} className="link" key={c._id}>
-              <li className="sidebarListItem">{c.title}</li>
+        <ul className="sidebarList" style={{paddingLeft: '0px', textAlign: 'center', width: '60%'}}>
+          {cats.map((c, _id) => (
+            
+            <Link to={`/post?categoryId=${c._id}`} className="link" key={c._id}>
+              <li className="sidebarListItem">{c.name}</li>
+              <br/>
             </Link>
           ))}
         </ul>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { apiUrl } from "../../contexts/constants";
 import { useState, useEffect } from 'react'
 
-export default function Post({ post }) {
+const PostInSearch=({ post }) =>{
 
   const handleView = async (id) => {
     /* const viewPost = await axios.get(`${apiUrl}/post/${id}`)
@@ -28,7 +28,7 @@ export default function Post({ post }) {
 
 
   return (
-    <div className="post" >
+    <div className="post" style={{width: '29%'}} >
       <Link to={`/post/${post._id}`} className="link" onClick={() => handleView(post._id)}>
       {post.photo &&
         (<img
@@ -57,3 +57,5 @@ export default function Post({ post }) {
     </div>
   );
 }
+
+export default  PostInSearch

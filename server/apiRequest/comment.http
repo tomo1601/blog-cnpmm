@@ -1,10 +1,10 @@
 POST  http://localhost:5000/api/comment/newcomment
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI5ZTFmMjM2MDhhM2E4MGM5NmFlYTMiLCJpYXQiOjE2NjQ3ODI0MDYsImV4cCI6MTY2NTA0MTYwNn0.bf8AZOLzMEqnt6AVzSavXdeVwNwaht04_aLgbEmMgEg
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzZiMjg1MDA4ZTE2YjM0ZWYxNTk2MTMiLCJpYXQiOjE2NjkyMDg0MTMsImV4cCI6MTY2OTQ2NzYxM30.2EO6l-1NdR5I-WaD3tAO0yvcdeiJgxCHiVWwPfelNkk
 
 {
     "text":"Không spam dc bài olaf nữa r :(",
-    "postId":"632bc231df437c9ec64f5d57"
+    "postId":"6334f7c3392aefeca1ca0a65"
 }
 
 ###
@@ -22,4 +22,4 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2MzI5Z
 
 
 ###
-GET http://localhost:5000/api/comment?postId=632bc231df437c9ec64f5d57
+GET http://localhost:5000/api/comment?postId=6334f7c3392aefeca1ca0a65
