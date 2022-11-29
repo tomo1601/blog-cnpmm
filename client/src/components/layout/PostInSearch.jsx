@@ -11,7 +11,6 @@ const PostInSearch=({ post }) =>{
       return viewPost.data */
   };
 
-
   const [cateName, setCateName] = useState('')
 
   useEffect(() => {
@@ -23,12 +22,13 @@ const PostInSearch=({ post }) =>{
         setCateName(response.data.category.name)
       }
     }
+    
     getCategory()
   }, []);
 
 
   return (
-    <div className="post" style={{width: '29%'}} >
+    <div className="post" style={{width: '32%'}} >
       <Link to={`/post/${post._id}`} className="link" onClick={() => handleView(post._id)}>
       {post.photo &&
         (<img

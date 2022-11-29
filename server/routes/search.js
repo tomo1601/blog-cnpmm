@@ -54,7 +54,7 @@ router.get('/search', async(req,res)=>{
     let search = users
     console.log(search)
     if(search.length === 0){
-        return res.status(400).json({message: "Not found!!"})
+        return res.status(400).json({success: false, message: "Not found!!"})
     }
 
     const page = parseInt(req.query.page, 10) || 1

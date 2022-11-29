@@ -1058,3 +1058,31 @@ button.post-button.btn:active {
   margin: 5px -60px 0 0;
   cursor: pointer;
 }
+
+.chose_category_title {
+  margin-left: 90px;
+  font-size: 20px;
+  text-decoration: underline;
+  font-weight: bold;
+  color: #555555;
+}
+
+.p_notfound {
+  text-align: center;
+  font-size: 20px;
+  color: #555555;
+}
+
+.under_search {
+  margin-left: 70px;
+}
+
+.list_cate_under_search {
+  display: inline-block;
+  text-align: center;
+  padding: 8px 16px;
+  margin: 10px 8px;
+  border: solid 1px gray;
+  border-radius: 15px;
+  cursor: pointer;
+}
