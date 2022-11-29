@@ -79,7 +79,7 @@ export default function Post({ post }) {
         {post.desc}
       </p>
       <Button style={{ margin: '0 5px' }} onClick={deleteFunction}>Delete</Button>
-      <Link to=''>
+      <Link to={`/post/update/${post._id}`}>
         <Button>Edit</Button>
       </Link>
     </div>

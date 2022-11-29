@@ -264,11 +264,24 @@ const PostContextProvider = ({ children }) => {
             else return { success: false, message: error.message };
         }
     }
+
+    // search by keyword
+    const searchByKeyWord = async (keyword) => {
+        try {
+            const response = await axios.get(`${apiUrl}/search?keyword=${keyword}`);
+            if (response.data.success) {
+                return response.data;
+            }
+        } catch (error) {
+            if (error.response.data) return error.response.data;
+            else return { success: false, message: error.message };
+        }
+    }
     // export
     const authContextData = {
         getAllPosts, getPostById, getPostByUserId, createPost, updatePost,
         deletePost, getPostByCateId, likePost, checkFeeling, newComment, 
-        getComment, editComment, deleteComment,
+        getComment, editComment, deleteComment, searchByKeyWord, 
 
     };
 

@@ -16,6 +16,8 @@ import { ToastProvider } from './contexts/ToastProvider';
 import PageNotFound from './views/PageNotFound';
 import ProtectedRoute from "./components/routing/ProtectedRoute";
 import SearchFilter from './views/SearchFilter'
+import UpdatePost from './views/UpdatePost'
+
 function App() {
   return (
     <AuthContextProvider>
@@ -31,6 +33,7 @@ function App() {
               <Route exact path='/about' component={About} />
               <Route exact path='/search' component={SearchFilter}/>
               <ProtectedRoute exact path='/post/:id' component={PostDetail} />
+              <ProtectedRoute exact path='/post/update/:id' component={UpdatePost} />
               <ProtectedRoute exact path='/write' component={Write} />
               <ProtectedRoute exact path='/settings' component={Settings} />
               <ProtectedRoute exact path='/profile' component={ProfilePage} />

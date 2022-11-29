@@ -2,7 +2,6 @@ import { useState, useEffect, useContext } from "react";
 import { Image } from "@mui/icons-material";
 import { useToast } from '../contexts/Toast';
 import 'react-toastify/dist/ReactToastify.css';
-import Topbar from "../components/layout/TopBar";
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import { AuthContext } from "../contexts/AuthContext";
@@ -10,6 +9,7 @@ import { PostContext } from "../contexts/PostContext";
 import { Link } from "react-router-dom";
 import axios from "axios"
 import { apiUrl } from "../contexts/constants"
+import ImgEx from '../assets/eximg.png'
 
 const Write = () => {
 
@@ -127,9 +127,8 @@ const Write = () => {
                   id="fileInput"
                   style={{ display: "none" }}
                   onChange={onUploadFileChange}
-                /* onChange={(e) => setFile(e.target.files[0])} */
                 />
-                <span style={{ marginLeft: "20px", fontSize: "30px", fontWeight: "600" }}>Title</span>
+                <label style={{ marginLeft: "20px", fontSize: "30px", fontWeight: "600" }}>Title</label>
                 <input
                   type="text"
                   placeholder=""
@@ -139,7 +138,7 @@ const Write = () => {
                   onChange={onChangePost}
                 />
                 <div style={{ width: "20vw" }}>
-                  <span style={{ fontSize: "30px", fontWeight: "600" }}>Category</span>
+                  <label style={{ fontSize: "30px", fontWeight: "600" }}>Category</label>
                   <select
                     className="select-form-search"
                     style={{    height: '30px', borderRadius: '5px', marginTop: '5px'}}
@@ -177,7 +176,7 @@ const Write = () => {
         <Col>
           <div className="singlePost">
             <div className="singlePost-review">
-              <img id='review-post-img' src='https://cdn.tgdd.vn/Files/2021/07/03/1365450/cau-hinh-toi-thieu-tft-mobile-1_1280x720-800-resize.jpg' alt="" className="singlePostImg" />
+              <img id='review-post-img' src={ImgEx} alt="" className="singlePostImg" />
               <h1 className="singlePostTitle">
                 {title}
                 {/* {post.userId._id === user?._id &&
