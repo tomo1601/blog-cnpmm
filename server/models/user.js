@@ -44,7 +44,7 @@ const UserSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['ACTIVE', 'NOT ACTIVE']
+        enum: ['ACTIVE', 'BLOCKED']
     }
 })
 

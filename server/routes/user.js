@@ -10,6 +10,7 @@ const { verifyAccessToken, verifyAdminRole } = require('../middlewares/jwt_servi
 const cloudinary = require('cloudinary').v2
 require("dotenv").config()
 const fs = require('fs')
+const Post = require('../models/post')
 
 cloudinary.config({ 
     cloud_name: process.env.CLOUD_NAME,
@@ -25,13 +26,11 @@ router.delete("/delete-user/:id", verifyAccessToken, async (req, res) => {
             message: 'Please enter ID!!' 
        })
     }
-    await Post.find({userId:req.params.id})
-    .then(function(posts){
-        if(posts){
+    const posts = await Post.find({userId:req.params.id})
+    if(posts.length!==0){
             return res.status(400)
-            .json({message: 'You must delete all your post before delete your account!' })
+            .json({success: false, message: 'You must delete all your post before delete your account!' })
         }
-    })
     try {
         await User.findByIdAndDelete({ _id: req.params.id })
         res.json({success: true,  message:"Delete successfully!!" })
@@ -199,21 +198,22 @@ router.put("/changeProfile/:id", verifyAccessToken,upload.single('avatar'), asyn
 });
 
 //PUT - block a user
-router.put("block/:id", verifyAccessToken, verifyAdminRole, async (req, res)=>{
-    if(!req.params.id){
-        return res.status(400).json({
-            message: 'Please enter ID!!' 
-       })
-    }
+router.put("/block", verifyAccessToken, verifyAdminRole, async (req, res)=>{
+    
     try {
-        const user = await User.findById({ _id: req.params.id })
+        const user = await User.findById({ _id: req.body.id })
         if(!user){
             return res.status(400).json({
                  message: 'Invalid ID!!' 
             })
         }
 
-        user.status = 'NOT ACTIVE'
+        if(user.status ==="BLOCKED"){
+            user.status = 'ACTIVE'
+        }
+        else if(user.status ==="ACTIVE"){
+            user.status = 'BLOCKED'
+        }
         await user.save()
         const { password, __v,otp, ...info } = user._doc
         return res.json({ success: true, info })
